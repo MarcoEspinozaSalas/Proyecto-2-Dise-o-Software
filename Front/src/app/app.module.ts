@@ -9,10 +9,18 @@ import { AppRoutingModule } from './app-routing.module';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+//Envioronment
 import { environment } from '../environments/environment';
 
 //Services
 import { OthelloService } from './services/othello.service';
+import { FirebaseService } from './services/firebase.service';
+import { ToastService } from "./services/toast.service";
+
+// import firebase module
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,9 +31,15 @@ import { OthelloService } from './services/othello.service';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
+    AngularFirestoreModule,
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, OthelloService],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    OthelloService,
+    FirebaseService,
+    ToastService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

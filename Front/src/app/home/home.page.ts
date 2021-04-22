@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import {infoPlayerModel} from '../models/infoPlayer';
 //Service
 import { OthelloService } from '../services/othello.service';
+import { FirebaseService } from '../services/firebase.service';
 
 @Component({
   selector: 'app-home',
@@ -11,20 +12,14 @@ import { OthelloService } from '../services/othello.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
+  datosUsuarioLoggedIn : any;
   dataPlayer = new infoPlayerModel();
 
-  constructor(private othelloService: OthelloService) {}
-
-  testService(){
-    this.dataPlayer.uid = '4';
-    this.dataPlayer.displayName = 'test4';
-    this.dataPlayer.email = 'test4@test.com',
-    this.othelloService.postPlayer(this.dataPlayer)
-      .subscribe((data:any)=>{
-        console.log(data);
-      });
+  constructor(private othelloService: OthelloService, private firebaseService: FirebaseService) {
+    this.datosUsuarioLoggedIn = JSON.parse(localStorage.getItem('user'));
+    if (this.datosUsuarioLoggedIn != null) {
+      this.firebaseService.signOut();
+    }
   }
-
 
 }
