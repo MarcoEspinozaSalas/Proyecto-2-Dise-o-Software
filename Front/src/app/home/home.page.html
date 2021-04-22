@@ -1,6 +1,6 @@
 <ion-card-header class="headCard">
   <div style="display: flex; align-items: center;justify-content: center;">
-    <ion-img style = "padding-top: 20px; width: 100px; height: 100px;" src="../../assets/icon/logo.png"></ion-img>
+    <ion-img style="padding-top: 20px; width: 100px; height: 100px;" src="../../assets/icon/logo.png"></ion-img>
   </div>
 </ion-card-header>
 
@@ -12,12 +12,15 @@
 
         <ion-button class="b1" [routerLink]="['/registration']" expand="block">Register</ion-button>
 
-        <span class="mid" >or are you already an user? </span>
+        <span class="mid">or are you already an user? </span>
 
         <ion-button [routerLink]="['/login']" expand="block">Sign In</ion-button>
 
+        <ion-button (click)="testService()">Test</ion-button>
+
+
       </ion-col>
     </ion-row>
-    
+
   </ion-grid>
 </ion-content>

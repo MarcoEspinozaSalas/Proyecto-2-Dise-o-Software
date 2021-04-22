@@ -113,8 +113,8 @@ async function saveInformation(uid, email, displayName) {
             uid: uid,
             email: email,
             displayName: displayName
-        }).then(() => console.log('se hizo'))
-            .catch(() => console.log('nel'))
+        }).then(() => console.log())
+            .catch(() => console.log())
 
     } catch {
         return false;
