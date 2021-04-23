@@ -20,6 +20,16 @@ export class OthelloService {
     return this.http.post(`${environment.urlRootBack}/savePlayerInformation`, data);
   }
 
+  getAllPlayers(){
+    return this.http.get(`${environment.urlRootBack}/getAllplayers`);
+  }
+
+  getGame(
+    uid:string
+  ){
+    return this.http.get(`${environment.urlRootBack}/newGame?createdBy=${uid}`);
+  }
+
   // TODO: Falta el resto de servicios
 
 }

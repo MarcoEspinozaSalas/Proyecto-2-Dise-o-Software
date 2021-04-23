@@ -146,8 +146,7 @@ async function getPlayerInfo(uid) {
 router.get('/newGame', async (req, res) => {
     try {
 
-        const { uid, displayName } = await getPlayerInfo(req.query.createdBy)
-
+        const { uid, displayName } = await getPlayerInfo(req.query.createdBy)       
         var db = firebase.firestore();
 
         db.collection('games').add({

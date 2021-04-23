@@ -1,11 +1,41 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>lobby</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-app>
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title style="color :#00FFB3;">Lobby</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
-<ion-content>
-  <h1>Estoy en el lobby</h1>
-
-  <ion-button (click)="firebaseService.signOut()">Logout</ion-button>
+<ion-content class="ion-padding">
+  <h1>Create new game</h1>
+  <ion-button (click)=" createNewGame()">
+    Create
+    <ion-icon slot="end" name="add-outline"></ion-icon>
+  </ion-button>
+  <p *ngIf="game.idGame!=undefined"> ID de juego generada: </p>
+    <ion-item>
+           <ion-label  style="color: white; " > <a (click)="ejemplo()">{{game.idGame}}</a></ion-label>
+    </ion-item>
+  
 </ion-content>
+<ion-content [scrollEvents]="true" class="ion-padding">
+  <ion-button expand="block" (click)="getData()" >Get All users</ion-button>  
+      <ion-item *ngFor="let item of displayNames">
+        <p>{{item.displayName}}</p>
+      </ion-item>
+    <ion-button style="position: absolute;
+  bottom: 20px;
+  right: 20px;"(click)="firebaseService.signOut()">Logout</ion-button>
+  </ion-content>
+ 
+  
+  
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title style="color :#00FFB3;">PLOW</ion-title>
+  </ion-toolbar>
+</ion-footer>
+</ion-app>
