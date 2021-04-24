@@ -1,7 +1,0 @@
-{
-  "name": "DSFront",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
-}
