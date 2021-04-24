@@ -31,7 +31,7 @@
       <ion-icon slot="end" name="add-outline"></ion-icon>
       </ion-button>  
     </div>
-  </ion-col>
+  
   
   <h3>Select gamemode</h3>
     <ion-button (click)="enter()" expand="block">
@@ -42,9 +42,12 @@
     MultiPlayer
     <ion-icon name="arrow-forward-sharp"></ion-icon>
     </ion-button>
+  </ion-col>
   <hr>
   
-  <ion-button style="position: absolute;bottom: 20px; right: 6%; width: 40%"(click)="firebaseService.signOut()">Logout</ion-button>
-  <ion-button style="position: absolute;bottom: 20px; left: 6%; width: 40%"(click)="verID()">Ver ID</ion-button>
+  <ion-button style="position: absolute; right: 6%; width: 40%"(click)="firebaseService.signOut()">Logout</ion-button>
+  <ion-button style="position: absolute; left: 6%; width: 40%"(click)="verID()">Ver ID</ion-button>
+<br>
+<br>
 </ion-content>
 </ion-app>
