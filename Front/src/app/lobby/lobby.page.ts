@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import {Router, ActivatedRoute } from '@angular/router';
+import {Router} from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
-import { ToastController, AlertController, LoadingController, NavController } from '@ionic/angular';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { NavController } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
+import { ToastController } from '@ionic/angular';
+
 //services
 import { OthelloService } from './../services/othello.service';
 
 //models
 import { infoNewGame } from './../models/infoNewGame';
+import { addPlayerModal } from './../models/addPlayerModal';
 
 @Component({
   selector: 'app-lobby',
@@ -22,52 +25,122 @@ export class LobbyPage implements OnInit {
   public items: Array<any>;
   LoginName:string = ""; 
   game = new infoNewGame();
+  addPlayer = new addPlayerModal();
+  games : Array<String>
   list:{};
+  elID = '';
+  uid = '';
+  secondPlayer: '';
+  id='';
 
 
-  constructor(private router: Router, private firebaseService: FirebaseService,public navCtrl: NavController, public http: HttpClient, private othello : OthelloService) {
+  constructor(private router: Router, private firebaseService: FirebaseService,public navCtrl: NavController, public http: HttpClient, 
+    private othello : OthelloService, public toastController: ToastController) {
      this.datosUsuarioLoggedIn = JSON.parse(localStorage.getItem('user'));
     if (this.datosUsuarioLoggedIn == null) {
-     this.router.navigate(['/login'])
-     
+     this.router.navigate(['/login']) 
     } 
+    
+      this.othello.getAllPlayers()
+        .subscribe(
+          data => {
+             this.UserList = [{data}];
+             this.displayNames = this.UserList[0].data.users
+             //console.log(this.displayNames)
+                  }, 
+          err => {
+                    console.log(err);
+                  }
+      ); 
+  
    }
    ionViewDidLoad(){
-    console.log("Getting Users");
-    this.getData(); 
   }
-   getData()
-   {
-     this.othello.getAllPlayers()
-       .subscribe(
-         data => {
-            this.UserList = [{data}];
-            this.displayNames = this.UserList[0].data.users 
-                 }, 
-         err => {
-                   console.log(err);
-                 }
-     ); 
-   }
-
+  
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Jugador guardado con exito',
+      animated: true,
+      color:"success",
+      duration: 2000
+    });
+    toast.present();
+  }
+  async error() {
+    const toast = await this.toastController.create({
+      message: 'Error al guardar el jugador',
+      color:"danger",
+      duration: 2000
+    });
+    toast.present();
+  }
+  async errorDatos() {
+    const toast = await this.toastController.create({
+      message: 'Ese id no existe',
+      color:"danger",
+      duration: 2000
+    });
+    toast.present();
+  }
    createNewGame(){
      this.datosUsuarioLoggedIn = JSON.parse(localStorage.getItem('user'));
      this.othello.getGame(this.datosUsuarioLoggedIn.user.uid)
      .subscribe(
        (data:any) =>{
               this.game.idGame = data.idGame;
+              this.games = data.idGame
        },
        err => {
         console.log(err);
       }
      )
+
+     
+     
    }
 
   ngOnInit() {
+   
   }
 
-  ejemplo(){
-    console.log("entro")
+  guardar(){
+ for (let index = 0; index < this.displayNames.length; index++) {
+      if (this.displayNames[index].displayName == this.uid){
+        this.secondPlayer = this.displayNames[index].uid;
+      } 
+    }
+    this.addPlayer.idGame = this.id;
+    this.addPlayer.ndPlayer = this.secondPlayer;
+    this.othello.addPlayer(this.addPlayer)
+    .subscribe(
+      (data:any)=>{
+          console.log(data);
+          this.presentToast();
+      },
+      err =>{
+        console.log(err)
+        this.error();
+      }
+    )
   }
+
+  enter(){
+    if(this.id == " "){
+      this.errorDatos()
+    }else{
+      this.othello.enterGame(this.id)
+    .subscribe(
+      (data:any)=>{
+        this.router.navigate(['/board']) 
+      },
+      err =>{
+        console.log(err);
+      }
+    )
+    }
+    
+  }
+ 
+
 
 }

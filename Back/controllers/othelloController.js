@@ -240,11 +240,10 @@ router.get('/getPlayerGames', async (req, res) => {
 
 router.post('/addPlayer', async (req, res) => {
 
-    const idGame = req.body.params.idGame;
+    const idGame = req.body.idGame;
 
-    console.log(req.body.params.ndPlayer, 'Prueba');
     try {
-        const { uid, displayName } = await getPlayerInfo(req.body.params.ndPlayer);
+        const { uid, displayName } = await getPlayerInfo(req.body.ndPlayer);
 
         var pool = firebase.firestore();
         await pool.collection('games').doc(idGame).update({
@@ -295,11 +294,11 @@ router.post('/skipTurn', async (req, res) => {
 
 router.post('/editGame', async (req, res) => {
 
-    const idGame = req.body.params.idGame;
-    const boardGame = req.body.params.boardGame;
-    const position = req.body.params.clickedPosition;
-    const xPlay = req.body.params.xPlay;
-    const currentPlayer = req.body.params.currentPlayer;
+    const idGame = req.body.idGame;
+    const boardGame = req.body.boardGame;
+    const position = req.body.clickedPosition;
+    const xPlay = req.body.xPlay;
+    const currentPlayer = req.body.currentPlayer;
 
     let modifiedBoard = flipSquares(boardGame, position, xPlay);
 

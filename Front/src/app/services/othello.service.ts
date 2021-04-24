@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 //Models
 import { infoPlayerModel } from '../models/infoPlayer';
+import { addPlayerModal } from './../models/addPlayerModal';
 
 //Environment
 import { environment } from '../../environments/environment';
@@ -28,6 +29,18 @@ export class OthelloService {
     uid:string
   ){
     return this.http.get(`${environment.urlRootBack}/newGame?createdBy=${uid}`);
+  }
+
+  addPlayer(
+    data: addPlayerModal,
+  ){
+    return this.http.post(`${environment.urlRootBack}/addPlayer`,data);
+  }
+
+  enterGame(
+    id: string,
+  ){
+    return this.http.get(`${environment.urlRootBack}/getGame?idGame=${id}`);
   }
 
   // TODO: Falta el resto de servicios

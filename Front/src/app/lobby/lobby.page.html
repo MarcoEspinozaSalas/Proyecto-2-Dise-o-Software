@@ -8,28 +8,45 @@
     </ion-toolbar>
   </ion-header>
 
-<ion-content class="ion-padding">
-  <h1>Create new game</h1>
+<ion-content class="ion-padding" [scrollEvents]="true">
+  <h3>Create new game</h3>
   <ion-button (click)=" createNewGame()">
     Create
     <ion-icon slot="end" name="add-outline"></ion-icon>
   </ion-button>
   <p *ngIf="game.idGame!=undefined"> ID de juego generada: </p>
-    <ion-item>
-           <ion-label  style="color: white; " > <a (click)="ejemplo()">{{game.idGame}}</a></ion-label>
-    </ion-item>
-  
-</ion-content>
-<ion-content [scrollEvents]="true" class="ion-padding">
-  <ion-button expand="block" (click)="getData()" >Get All users</ion-button>  
-      <ion-item *ngFor="let item of displayNames">
-        <p>{{item.displayName}}</p>
-      </ion-item>
-    <ion-button style="position: absolute;
-  bottom: 20px;
-  right: 20px;"(click)="firebaseService.signOut()">Logout</ion-button>
+      <ion-select *ngIf="game.idGame!=undefined" placeholder="Select One" [(ngModel)]="id">
+        <ion-select-option >{{game.idGame}}</ion-select-option>
+      </ion-select>
+  <h3>Select a player to play with</h3>
+ <!--  <ion-button expand="block" (click)="getData()" >Get All users</ion-button>   -->
+      <ion-select lines="full"  [(ngModel)]="uid" placeholder="See players">
+        <ion-select-option *ngFor="let item of displayNames" >{{item.displayName}}</ion-select-option>
+      </ion-select>
+      <ion-grid>
+        <ion-row>
+          <ion-col  class="ion-align-self-start">
+            <div>      <ion-button (click)="guardar()">
+              Agregar
+              <ion-icon slot="end" name="add-outline"></ion-icon>
+            </ion-button>  <ion-button (click)="enter()">
+              Single Player
+              <ion-icon name="arrow-forward-sharp"></ion-icon>
+            </ion-button>
+          <ion-button (click)="enter()">
+            MultiPlayer
+            <ion-icon name="arrow-forward-sharp"></ion-icon>
+          </ion-button>
+        </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    
+    <ion-button style="position: absolute;bottom: 20px; right: 20px;"(click)="firebaseService.signOut()">Logout</ion-button>
+
   </ion-content>
- 
+
   
   
 
