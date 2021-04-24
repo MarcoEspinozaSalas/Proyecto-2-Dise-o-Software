@@ -26,7 +26,7 @@ export class LobbyPage implements OnInit {
   LoginName:string = ""; 
   game = new infoNewGame();
   addPlayer = new addPlayerModal();
-  games : Array<String>
+  games : Array<any>;
   list:{};
   elID = '';
   uid = '';
@@ -82,19 +82,26 @@ export class LobbyPage implements OnInit {
     });
     toast.present();
   }
+  async verID() {
+    const toast = await this.toastController.create({
+      message: 'My ID:'+" " + this.datosUsuarioLoggedIn.user.uid,
+      animated: true,
+      color:"dark",
+      duration: 4000
+    });
+    toast.present();
+  }
    createNewGame(){
      this.datosUsuarioLoggedIn = JSON.parse(localStorage.getItem('user'));
      this.othello.getGame(this.datosUsuarioLoggedIn.user.uid)
      .subscribe(
        (data:any) =>{
               this.game.idGame = data.idGame;
-              this.games = data.idGame
        },
        err => {
         console.log(err);
-      }
+      }    
      )
-
      
      
    }
@@ -140,7 +147,6 @@ export class LobbyPage implements OnInit {
     }
     
   }
- 
-
+  
 
 }

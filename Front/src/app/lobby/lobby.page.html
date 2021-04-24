@@ -8,7 +8,7 @@
     </ion-toolbar>
   </ion-header>
 
-<ion-content class="ion-padding" [scrollEvents]="true">
+<ion-content class="ion-padding" [scrollEvents]="true">  
   <h3>Create new game</h3>
   <ion-button (click)=" createNewGame()">
     Create
@@ -29,30 +29,23 @@
             <div>      <ion-button (click)="guardar()">
               Agregar
               <ion-icon slot="end" name="add-outline"></ion-icon>
-            </ion-button>  <ion-button (click)="enter()">
-              Single Player
-              <ion-icon name="arrow-forward-sharp"></ion-icon>
-            </ion-button>
-          <ion-button (click)="enter()">
-            MultiPlayer
-            <ion-icon name="arrow-forward-sharp"></ion-icon>
-          </ion-button>
+            </ion-button>  
         </div>
           </ion-col>
         </ion-row>
+
       </ion-grid>
-
+      <h3>Select gamemode</h3>
+      <ion-button (click)="enter()" expand="block" >
+        Single Player
+        <ion-icon name="arrow-forward-sharp"></ion-icon>
+      </ion-button>
+    <ion-button (click)="enter()" expand="block">
+      MultiPlayer
+      <ion-icon name="arrow-forward-sharp"></ion-icon>
+    </ion-button>
     
-    <ion-button style="position: absolute;bottom: 20px; right: 20px;"(click)="firebaseService.signOut()">Logout</ion-button>
-
-  </ion-content>
-
-  
-  
-
-<ion-footer>
-  <ion-toolbar>
-    <ion-title style="color :#00FFB3;">PLOW</ion-title>
-  </ion-toolbar>
-</ion-footer>
+        <ion-button style="position: absolute;bottom: 20px; right: 20px;"(click)="firebaseService.signOut()">Logout</ion-button>
+        <ion-button style="position: absolute;bottom: 20px; left: 20px;"(click)="verID()">Ver ID</ion-button>
+</ion-content>
 </ion-app>
