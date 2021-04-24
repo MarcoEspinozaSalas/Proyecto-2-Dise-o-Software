@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color :#00FFB3;">Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Display Name</ion-label>
+      <ion-input #inputDisplayName name="displayName" [(ngModel)]="displayName" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" #inputCorreo name="email" [(ngModel)]="email" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Password</ion-label>
+      <!-- <app-show-hide-password> -->
+      <ion-input type="password" #inputContra name="password" [(ngModel)]="password" required></ion-input>
+      <!-- </app-show-hide-password> -->
+    </ion-item>
+
+    <ion-row>
+      <ion-col>
+        <p *ngIf="errorMessage.length > 0" class="" style="color:red;">{{errorMessage}}</p>
+        <p *ngIf="error.message.length > 0" class="" style="color:red;">{{error.message}}</p>
+        <ion-button type="submit" expand="block" (click)="onSignup()">Sign Up</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
