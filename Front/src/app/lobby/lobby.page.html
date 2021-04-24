@@ -10,42 +10,41 @@
 
 <ion-content class="ion-padding" [scrollEvents]="true">  
   <h3>Create new game</h3>
-  <ion-button (click)=" createNewGame()">
+  <ion-button (click)=" createNewGame()" expand="block">
     Create
     <ion-icon slot="end" name="add-outline"></ion-icon>
   </ion-button>
   <p *ngIf="game.idGame!=undefined"> ID de juego generada: </p>
-      <ion-select *ngIf="game.idGame!=undefined" placeholder="Select One" [(ngModel)]="id">
-        <ion-select-option >{{game.idGame}}</ion-select-option>
-      </ion-select>
+    <ion-select *ngIf="game.idGame!=undefined" placeholder="Select One" [(ngModel)]="id">
+      <ion-select-option >{{game.idGame}}</ion-select-option>
+    </ion-select>
   <h3>Select a player to play with</h3>
  <!--  <ion-button expand="block" (click)="getData()" >Get All users</ion-button>   -->
-      <ion-select lines="full"  [(ngModel)]="uid" placeholder="See players">
-        <ion-select-option *ngFor="let item of displayNames" >{{item.displayName}}</ion-select-option>
-      </ion-select>
-      <ion-grid>
-        <ion-row>
-          <ion-col  class="ion-align-self-start">
-            <div>      <ion-button (click)="guardar()">
-              Agregar
-              <ion-icon slot="end" name="add-outline"></ion-icon>
-            </ion-button>  
-        </div>
-          </ion-col>
-        </ion-row>
-
-      </ion-grid>
-      <h3>Select gamemode</h3>
-      <ion-button (click)="enter()" expand="block" >
-        Single Player
-        <ion-icon name="arrow-forward-sharp"></ion-icon>
-      </ion-button>
+  <ion-select lines="full"  [(ngModel)]="uid" placeholder="See players">
+    <ion-select-option *ngFor="let item of displayNames" >{{item.displayName}}</ion-select-option>
+  </ion-select>
+  
+  <ion-col  class="ion-align-self-start">
+    <div class="col text-center">
+      <ion-button (click)="guardar()" expand="block">
+      Add player
+      <ion-icon slot="end" name="add-outline"></ion-icon>
+      </ion-button>  
+    </div>
+  </ion-col>
+  
+  <h3>Select gamemode</h3>
     <ion-button (click)="enter()" expand="block">
-      MultiPlayer
-      <ion-icon name="arrow-forward-sharp"></ion-icon>
+      Single Player
+    <ion-icon name="arrow-forward-sharp"></ion-icon>
     </ion-button>
-    
-        <ion-button style="position: absolute;bottom: 20px; right: 20px;"(click)="firebaseService.signOut()">Logout</ion-button>
-        <ion-button style="position: absolute;bottom: 20px; left: 20px;"(click)="verID()">Ver ID</ion-button>
+    <ion-button (click)="enter()" expand="block">
+    MultiPlayer
+    <ion-icon name="arrow-forward-sharp"></ion-icon>
+    </ion-button>
+  <hr>
+  
+  <ion-button style="position: absolute;bottom: 20px; right: 6%; width: 40%"(click)="firebaseService.signOut()">Logout</ion-button>
+  <ion-button style="position: absolute;bottom: 20px; left: 6%; width: 40%"(click)="verID()">Ver ID</ion-button>
 </ion-content>
 </ion-app>
