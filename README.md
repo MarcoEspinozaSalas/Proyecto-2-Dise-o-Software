@@ -27,3 +27,9 @@ This README would normally document whatever steps are necessary to get your app
 
 * Repo owner or admin
 * Other community or team contact
+
+### Commans to build and run ionic in android? ###
+
+* ionic build
+* npx cap add android
+* npx cap open android
