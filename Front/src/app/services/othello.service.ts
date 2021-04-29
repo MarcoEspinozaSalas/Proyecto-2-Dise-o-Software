@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 //Models
 import { infoPlayerModel } from '../models/infoPlayer';
 import { addPlayerModal } from './../models/addPlayerModal';
-
+import { editGame } from './../models/editGame';
 //Environment
 import { environment } from '../../environments/environment';
 
@@ -44,6 +44,9 @@ export class OthelloService {
     return this.http.get(`${environment.urlRootBack}/getGame?idGame=${id}`);
   }
 
-  // TODO: Falta el resto de servicios
-
+  editGame(
+    data: editGame
+  ){
+    return this.http.post(`${environment.urlRootBack}/editGame`,data);
+  }
 }

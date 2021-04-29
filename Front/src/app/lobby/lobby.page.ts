@@ -18,12 +18,12 @@ import { addPlayerModal } from './../models/addPlayerModal';
   styleUrls: ['./lobby.page.scss'],
 })
 export class LobbyPage implements OnInit {
-  
+
   datosUsuarioLoggedIn : any;
   UserList:any[]=[];
   displayNames: Array<any>;
   public items: Array<any>;
-  LoginName:string = ""; 
+  LoginName:string = "";
   game = new infoNewGame();
   addPlayer = new addPlayerModal();
   games : Array<any>;
@@ -34,29 +34,29 @@ export class LobbyPage implements OnInit {
   id='';
 
 
-  constructor(private router: Router, private firebaseService: FirebaseService,public navCtrl: NavController, public http: HttpClient, 
+  constructor(private router: Router, private firebaseService: FirebaseService,public navCtrl: NavController, public http: HttpClient,
     private othello : OthelloService, public toastController: ToastController) {
      this.datosUsuarioLoggedIn = JSON.parse(localStorage.getItem('user'));
     if (this.datosUsuarioLoggedIn == null) {
-     this.router.navigate(['/login']) 
-    } 
-    
+     this.router.navigate(['/login'])
+    }
+
       this.othello.getAllPlayers()
         .subscribe(
           data => {
              this.UserList = [{data}];
              this.displayNames = this.UserList[0].data.users
              //console.log(this.displayNames)
-                  }, 
+                  },
           err => {
                     console.log(err);
                   }
-      ); 
-  
+      );
+
    }
    ionViewDidLoad(){
   }
-  
+
   async presentToast() {
     const toast = await this.toastController.create({
       message: 'Jugador guardado con exito',
@@ -100,10 +100,10 @@ export class LobbyPage implements OnInit {
       },
       err => {
       console.log(err);
-    }    
+    }
     )
-    
-    
+
+
   }
 
   ngOnInit() {
@@ -113,14 +113,13 @@ export class LobbyPage implements OnInit {
   for (let index = 0; index < this.displayNames.length; index++) {
         if (this.displayNames[index].displayName == this.uid){
           this.secondPlayer = this.displayNames[index].uid;
-        } 
+        }
       }
       this.addPlayer.idGame = this.id;
       this.addPlayer.ndPlayer = this.secondPlayer;
       this.othello.addPlayer(this.addPlayer)
       .subscribe(
         (data:any)=>{
-            console.log(data);
             this.presentToast();
         },
         err =>{
@@ -138,15 +137,15 @@ export class LobbyPage implements OnInit {
       this.othello.enterGame(this.id)
     .subscribe(
       (data:any)=>{
-        this.router.navigate(['/board']) 
+        this.router.navigate(['/board'])
       },
       err =>{
         console.log(err);
       }
     )
     }
-    
+
   }
-  
+
 
 }

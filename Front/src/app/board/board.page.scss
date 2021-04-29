@@ -10,11 +10,8 @@
     border-radius: 100%;
 
   }
-  
-
 
   .tablero{
-    
     width:12.5%;
     height: 40px;
     background-color: rgb(0, 141, 31);
@@ -22,4 +19,12 @@
     border-width: thin;
     border-color: black;
     align-items: center;
+  }
+
+  .ocultar{
+    opacity: 0;
+  }
+
+  .mostrar{
+    visibility:visible !important;
   }

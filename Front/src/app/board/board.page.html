@@ -19,23 +19,16 @@
         {{secondPlayer}}
       </ion-card>
     </ion-col>
-    
+
   </ion-row>
 
- 
+
   <ion-grid>
     <ion-row no-padding>
-      <ion-col *ngFor="let c of esto2" class='tablero'>
-        <button class="button" ></button>
+      <ion-col *ngFor="let c of esto2; index as indexButton" class='tablero' (click)="jugada(indexButton)">
+        <button id="{{'button' + indexButton}}" class="button"></button>
       </ion-col>
     </ion-row>
   </ion-grid>
 
- 
-
-
-
-
-
-
-</ion-content> 
+</ion-content>
