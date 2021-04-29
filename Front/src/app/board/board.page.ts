@@ -34,40 +34,28 @@ export class BoardPage implements AfterViewInit {
   secondPlayer: '';
   game: any;
 
-
   constructor(private router: Router, private firebaseService: FirebaseService,public navCtrl: NavController, public http: HttpClient,
     private othello : OthelloService) {
       this.datosUsuarioLoggedIn = JSON.parse(localStorage.getItem('user'));
       this.actualPlayer = this.datosUsuarioLoggedIn.user.displayName;
       this.gameId = localStorage.getItem('idGameCreated')
-      
-
+      this.othello.enterGame(this.gameId)
+        .subscribe( ( data:any ) => {
+          this.game = data.game;
+          this.secondPlayer = this.game.player2.playerName;
+          this.esto2 = this.game.boardGame;
+        });
     if (this.datosUsuarioLoggedIn == null) {
      this.router.navigate(['/login'])
     }
   }
 
   ngAfterViewInit() {
-    this.othello.enterGame(this.gameId)
-      .subscribe( ( data:any ) => {
-        this.game = data.game;
-        this.secondPlayer = this.game.player2.playerName;
-        this.esto2 = this.game.boardGame;
-        this.ocultarFichas();   
-      });
   }
 
-  ocultarFichas(){
-    var buttonI;
-    for (let i = 0; i < this.esto2.length; i++) {
-      buttonI = document.getElementById("button" + i) as HTMLInputElement;
-      buttonI.classList.add("ocultar");
-    }
-  }
 
-   jugada(index:number){          
+   jugada(index:number){
      var buttonI = document.getElementById("button" + index.toString()) as HTMLInputElement;
-     buttonI.classList.remove("ocultar");
      buttonI.classList.add("mostrar");
    }
 

@@ -26,7 +26,7 @@
   <ion-grid>
     <ion-row no-padding>
       <ion-col *ngFor="let c of esto2; index as indexButton" class='tablero' (click)="jugada(indexButton)">
-        <button id="{{'button' + indexButton}}" class="button"></button>
+        <button id="{{'button' + indexButton}}" class="button" style="opacity: 0;"></button>
       </ion-col>
     </ion-row>
   </ion-grid>

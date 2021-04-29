@@ -21,10 +21,6 @@
     align-items: center;
   }
 
-  .ocultar{
-    opacity: 0;
-  }
-
   .mostrar{
-    visibility:visible !important;
+    opacity: 1 !important;
   }
