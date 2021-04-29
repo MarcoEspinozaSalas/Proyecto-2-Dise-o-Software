@@ -7,6 +7,7 @@ import { addPlayerModal } from './../models/addPlayerModal';
 import { editGame } from './../models/editGame';
 //Environment
 import { environment } from '../../environments/environment';
+import { skipTurn } from '../models/skpTurn';
 
 @Injectable({
   providedIn: 'root'
@@ -48,5 +49,11 @@ export class OthelloService {
     data: editGame
   ){
     return this.http.post(`${environment.urlRootBack}/editGame`,data);
+  }
+
+  skipTurn(
+    data: skipTurn
+  ){
+    return this.http.post(`${environment.urlRootBack}/skipTurn`,data);
   }
 }
