@@ -31,6 +31,7 @@ export class OthelloService {
     return this.http.get(`${environment.urlRootBack}/newGame?createdBy=${uid}`);
   }
 
+
   addPlayer(
     data: addPlayerModal,
   ){

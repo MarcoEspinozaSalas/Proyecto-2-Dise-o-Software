@@ -1,9 +1,41 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Board</ion-title>
+    <ion-title>Othello epic VS</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-</ion-content>
+  <ion-row>
+
+    <ion-col style='width:50%; text-align:center'>
+      <ion-card text-center>
+        {{actualPlayer}}
+      </ion-card>
+    </ion-col>
+
+    <ion-col style='width:50%; text-align:center'>
+      <ion-card text-center>
+        {{secondPlayer}}
+      </ion-card>
+    </ion-col>
+    
+  </ion-row>
+
+ 
+  <ion-grid>
+    <ion-row no-padding>
+      <ion-col *ngFor="let c of esto2" class='tablero'>
+        <button class="button" ></button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+ 
+
+
+
+
+
+
+</ion-content> 

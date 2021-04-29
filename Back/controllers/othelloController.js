@@ -17,7 +17,6 @@ function flatten(board) {
     }, [])
 }
 
-
 function boardGenerator() {
     const boardMatrix = Array(8).fill(null).map(() => Array(8).fill(null))
     boardMatrix[3][3] = 'X'
@@ -25,10 +24,9 @@ function boardGenerator() {
     boardMatrix[4][4] = 'X'
     boardMatrix[4][3] = 'O'
 
+    console.log(flatten(boardMatrix));
     return flatten(boardMatrix);
 }
-
-
 
 function flipSquares(squares, position, xIsNext) {
 
@@ -72,13 +70,9 @@ function flipSquares(squares, position, xIsNext) {
     return modifiedBoard;
 }
 
-
-
-
 function calculateOffsets(index) {
     return [1, -1].concat(index - 1).concat(index).concat(index + 1).concat(-index - 1).concat(-index).concat(-index + 1)
 }
-
 
 function calculateScore(board) {
 
@@ -141,8 +135,6 @@ async function getPlayerInfo(uid) {
     }
 }
 
-
-
 router.get('/newGame', async (req, res) => {
     try {
 
@@ -178,7 +170,6 @@ router.get('/newGame', async (req, res) => {
 
 });
 
-
 router.post('/savePlayerInformation', async (req, res) => {
 
     const uid = req.body.uid;
@@ -211,8 +202,6 @@ router.post('/savePlayerInformation', async (req, res) => {
     }
 });
 
-
-
 router.get('/getPlayerGames', async (req, res) => {
 
     const playerId = req.query.playerId;
@@ -236,7 +225,6 @@ router.get('/getPlayerGames', async (req, res) => {
         res.status(status.INTERNAL_SERVER_ERROR).json({ error: err })
     }
 });
-
 
 router.post('/addPlayer', async (req, res) => {
 
@@ -264,7 +252,6 @@ router.post('/addPlayer', async (req, res) => {
         res.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
     }
 });
-
 
 router.post('/skipTurn', async (req, res) => {
 
@@ -381,5 +368,6 @@ router.get('/getAllplayers', async (req, res) => {
         res.status(status.INTERNAL_SERVER_ERROR).json({ error: 'Fail getting the players' });
     }
 })
+
 
 module.exports = router;

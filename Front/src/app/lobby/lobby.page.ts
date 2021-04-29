@@ -18,7 +18,7 @@ import { addPlayerModal } from './../models/addPlayerModal';
   styleUrls: ['./lobby.page.scss'],
 })
 export class LobbyPage implements OnInit {
-
+  
   datosUsuarioLoggedIn : any;
   UserList:any[]=[];
   displayNames: Array<any>;
@@ -91,47 +91,47 @@ export class LobbyPage implements OnInit {
     });
     toast.present();
   }
-   createNewGame(){
-     this.datosUsuarioLoggedIn = JSON.parse(localStorage.getItem('user'));
-     this.othello.getGame(this.datosUsuarioLoggedIn.user.uid)
-     .subscribe(
-       (data:any) =>{
-              this.game.idGame = data.idGame;
-       },
-       err => {
-        console.log(err);
-      }    
-     )
-     
-     
-   }
+  createNewGame(){
+    this.datosUsuarioLoggedIn = JSON.parse(localStorage.getItem('user'));
+    this.othello.getGame(this.datosUsuarioLoggedIn.user.uid)
+    .subscribe(
+      (data:any) =>{
+            this.game.idGame = data.idGame;
+      },
+      err => {
+      console.log(err);
+    }    
+    )
+    
+    
+  }
 
   ngOnInit() {
-   
   }
 
   guardar(){
- for (let index = 0; index < this.displayNames.length; index++) {
-      if (this.displayNames[index].displayName == this.uid){
-        this.secondPlayer = this.displayNames[index].uid;
-      } 
-    }
-    this.addPlayer.idGame = this.id;
-    this.addPlayer.ndPlayer = this.secondPlayer;
-    this.othello.addPlayer(this.addPlayer)
-    .subscribe(
-      (data:any)=>{
-          console.log(data);
-          this.presentToast();
-      },
-      err =>{
-        console.log(err)
-        this.error();
+  for (let index = 0; index < this.displayNames.length; index++) {
+        if (this.displayNames[index].displayName == this.uid){
+          this.secondPlayer = this.displayNames[index].uid;
+        } 
       }
-    )
+      this.addPlayer.idGame = this.id;
+      this.addPlayer.ndPlayer = this.secondPlayer;
+      this.othello.addPlayer(this.addPlayer)
+      .subscribe(
+        (data:any)=>{
+            console.log(data);
+            this.presentToast();
+        },
+        err =>{
+          console.log(err)
+          this.error();
+        }
+      )
   }
 
   enter(){
+    localStorage.setItem('idGameCreated',this.game.idGame);
     if(this.id == " "){
       this.errorDatos()
     }else{
