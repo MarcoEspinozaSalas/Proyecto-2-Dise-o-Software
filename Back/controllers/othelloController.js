@@ -24,19 +24,17 @@ function boardGenerator() {
     boardMatrix[4][4] = 'X'
     boardMatrix[4][3] = 'O'
 
-    console.log(flatten(boardMatrix));
+    //console.log(flatten(boardMatrix));
     return flatten(boardMatrix);
 }
 
 function flipSquares(squares, position, xIsNext) {
-
     let modifiedBoard = null;
     let [startX, startY] = [position % 8, (position - position % 8) / 8];
-
+ 
     if (squares[position] !== null) {
         return null;
     }
-
 
     calculateOffsets(8).forEach((offset) => {
         let flippedSquares = modifiedBoard ? modifiedBoard.slice() : squares.slice();
@@ -58,12 +56,13 @@ function flipSquares(squares, position, xIsNext) {
                 continue;
             }
 
-
+            
             else if ((flippedSquares[y] === (xIsNext ? 'X' : 'O')) && atLeastOneMarkIsFlipped) {
                 flippedSquares[position] = xIsNext ? 'X' : 'O';
                 modifiedBoard = flippedSquares.slice();
             }
             break;
+            
         }
     });
 
@@ -83,7 +82,7 @@ function calculateScore(board) {
     board.forEach(item => {
         if (item) {
             item == 'X' ? player1Points++ : player2Points++
-            console.log(item)
+            //console.log(item)
         }
     });
 
@@ -287,6 +286,12 @@ router.post('/editGame', async (req, res) => {
     const xPlay = req.body.xPlay;
     const currentPlayer = req.body.currentPlayer;
 
+    /* console.log(idGame);
+    console.log(boardGame);
+    console.log(position);
+    console.log(xPlay);
+    console.log(currentPlayer);  */
+
     let modifiedBoard = flipSquares(boardGame, position, xPlay);
 
     if (modifiedBoard !== null) {
@@ -303,6 +308,7 @@ router.post('/editGame', async (req, res) => {
             var pool = firebase.firestore();
 
             await pool.collection('games').doc(idGame).update({
+                
                 boardGame: modifiedBoard,
                 xPlay: !xPlay,
                 currentPlayer: currentPlayer,

@@ -1,7 +1,7 @@
 export class editGame {
    idGame: string;
    boardGame: Array<any>;
-   position: number;
+   clickedPosition: number;
    xPlay: string;
    currentPlayer: string;
 }

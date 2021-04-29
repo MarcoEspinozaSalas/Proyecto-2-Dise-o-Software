@@ -16,6 +16,7 @@ import { infoNewGame } from './../models/infoNewGame';
 import { addPlayerModal } from './../models/addPlayerModal';
 import { observable } from 'rxjs';
 import { editGame } from './../models/editGame';
+import { Button } from 'selenium-webdriver';
 
 
 @Component({
@@ -32,7 +33,11 @@ export class BoardPage implements AfterViewInit {
   gameId : string;
   actualPlayer: '';
   secondPlayer: '';
+  sc1:0;
+  sc2:0;
   game: any;
+  
+  playerTurn=1;
 
   constructor(private router: Router, private firebaseService: FirebaseService,public navCtrl: NavController, public http: HttpClient,
     private othello : OthelloService) {
@@ -44,6 +49,8 @@ export class BoardPage implements AfterViewInit {
           this.game = data.game;
           this.secondPlayer = this.game.player2.playerName;
           this.esto2 = this.game.boardGame;
+          this.sc1 = this.game.score.player1;
+          this.sc2 = this.game.score.player2;
         });
     if (this.datosUsuarioLoggedIn == null) {
      this.router.navigate(['/login'])
@@ -51,13 +58,58 @@ export class BoardPage implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+
   }
 
+  paint(c:number,p:string){
+    if(p!=null){
+      if (p=='X') {
+        var buttonI = document.getElementById("button" + c.toString()) as HTMLInputElement;
+        buttonI.classList.add("mostrarN");
+      }else{
+        var buttonI = document.getElementById("button" + c.toString()) as HTMLInputElement;
+      buttonI.classList.add("mostrar");
+      }
+      
+    }
+    
+  }
+  
 
-   jugada(index:number){
-     var buttonI = document.getElementById("button" + index.toString()) as HTMLInputElement;
-     buttonI.classList.add("mostrar");
-   }
+  jugada(index:number){
+    
+    let turn;
+    if(this.playerTurn==1){
+      turn='X';
+      this.playerTurn = 0;
+
+      var buttonI = document.getElementById("button" + index.toString()) as HTMLInputElement;
+      buttonI.classList.add("mostrarN");
+    }else{
+      turn = 'O';
+      this.playerTurn = 1;
+
+      var buttonI = document.getElementById("button" + index.toString()) as HTMLInputElement;
+      buttonI.classList.add("mostrar");
+    }
+    
+
+
+    this.editGameWJugada.boardGame = this.esto2;
+    this.editGameWJugada.currentPlayer = this.datosUsuarioLoggedIn.user.uid;
+    this.editGameWJugada.idGame = this.gameId;
+    this.editGameWJugada.clickedPosition = index;
+    this.editGameWJugada.xPlay =turn;
+    
+    this.othello.editGame(this.editGameWJugada)
+    .subscribe(
+      (data:any )=>{
+        console.log(data);
+        
+      }
+    );
+
+  }
 
   setVar(){
     this.datosUsuarioLoggedIn = JSON.parse(localStorage.getItem('user'));
