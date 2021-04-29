@@ -27,20 +27,7 @@ export class BoardPage implements AfterViewInit {
 
   editGameWJugada = new editGame();
 
-  esto = [{es:'asd'},{es:'asdasd'},{es:'aasdasdsd'}]
-
-  esto2 = [
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 'X', 'O', 0, 0, 0,
-    0, 0, 0, 'O', 'X', 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0
-  ]
-
-
+  esto2 : any;
   datosUsuarioLoggedIn : any;
   gameId : string;
   actualPlayer: '';
@@ -53,18 +40,21 @@ export class BoardPage implements AfterViewInit {
       this.datosUsuarioLoggedIn = JSON.parse(localStorage.getItem('user'));
       this.actualPlayer = this.datosUsuarioLoggedIn.user.displayName;
       this.gameId = localStorage.getItem('idGameCreated')
-      this.othello.enterGame(this.gameId)
-      .subscribe( ( data:any ) => {
-        this.game = data.game;
-        this.secondPlayer = this.game.player2.playerName;
-      } );
+      
+
     if (this.datosUsuarioLoggedIn == null) {
      this.router.navigate(['/login'])
     }
   }
 
   ngAfterViewInit() {
-    this.ocultarFichas();
+    this.othello.enterGame(this.gameId)
+      .subscribe( ( data:any ) => {
+        this.game = data.game;
+        this.secondPlayer = this.game.player2.playerName;
+        this.esto2 = this.game.boardGame;
+        this.ocultarFichas();   
+      });
   }
 
   ocultarFichas(){
@@ -75,7 +65,7 @@ export class BoardPage implements AfterViewInit {
     }
   }
 
-   jugada(index:number){     
+   jugada(index:number){          
      var buttonI = document.getElementById("button" + index.toString()) as HTMLInputElement;
      buttonI.classList.remove("ocultar");
      buttonI.classList.add("mostrar");
