@@ -15,4 +15,13 @@ export class ToastService {
    });
    toast.present();
  }
+
+ async chatToast(text:string) {
+   let toast = await this.toastController.create({
+      message: text,
+      position: 'top',
+      duration: 2000
+    });
+    toast.present();
+  }
 }

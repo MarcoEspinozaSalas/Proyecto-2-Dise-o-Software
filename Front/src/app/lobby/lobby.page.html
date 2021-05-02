@@ -1,13 +1,15 @@
 <ion-header>
-  <ion-toolbar class="tooltip">
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <span class="tooltiptext">Friend List</span>
     <ion-title style="color :#00FFB3;">Lobby</ion-title>
     <ion-buttons slot="primary">
       <ion-button [routerLink]="['/friends']">
         <ion-icon slot="icon-only" md="people-outline"></ion-icon>
+      </ion-button>
+      <ion-button [routerLink]="['/chat']">
+        <ion-icon slot="icon-only" md="chatbubbles-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
