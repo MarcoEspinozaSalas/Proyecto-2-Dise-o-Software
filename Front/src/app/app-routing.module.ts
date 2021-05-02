@@ -30,7 +30,8 @@ const routes: Routes = [
   {
     path: 'board',
     loadChildren: () => import('./board/board.module').then( m => m.BoardPageModule)
-  },  {
+  },
+  {
     path: 'friends',
     loadChildren: () => import('./friends/friends.module').then( m => m.FriendsPageModule)
   },
