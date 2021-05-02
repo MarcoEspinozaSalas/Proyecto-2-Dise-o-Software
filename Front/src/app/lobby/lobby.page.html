@@ -1,53 +1,59 @@
-<ion-app>
-  <ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button></ion-back-button>
-      </ion-buttons>
-      <ion-title style="color :#00FFB3;">Lobby</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-header>
+  <ion-toolbar class="tooltip">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <span class="tooltiptext">Friend List</span>
+    <ion-title style="color :#00FFB3;">Lobby</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button [routerLink]="['/friends']">
+        <ion-icon slot="icon-only" md="people-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-<ion-content class="ion-padding" [scrollEvents]="true">  
+<ion-content class="ion-padding" [scrollEvents]="true">
   <h3>Create new game</h3>
   <ion-button (click)=" createNewGame()" expand="block">
     Create
     <ion-icon slot="end" name="add-outline"></ion-icon>
   </ion-button>
   <p *ngIf="game.idGame!=undefined"> ID de juego generada: </p>
-    <ion-select *ngIf="game.idGame!=undefined" placeholder="Select One" [(ngModel)]="id">
-      <ion-select-option >{{game.idGame}}</ion-select-option>
-    </ion-select>
-  <h3>Select a player to play with</h3>
- <!--  <ion-button expand="block" (click)="getData()" >Get All users</ion-button>   -->
-  <ion-select lines="full"  [(ngModel)]="uid" placeholder="See players">
-    <ion-select-option *ngFor="let item of displayNames" >{{item.displayName}}</ion-select-option>
+  <ion-select *ngIf="game.idGame!=undefined" placeholder="Select One" [(ngModel)]="id">
+    <ion-select-option>{{game.idGame}}</ion-select-option>
   </ion-select>
-  
-  <ion-col  class="ion-align-self-start">
+  <h3 *ngIf="game.idGame!=undefined && friendList != undefined && id != '' && testFL?.length > 0 ">Select a player to play with</h3>
+
+  <ion-select *ngIf="game.idGame!=undefined && friendList != undefined  && id != '' && testFL?.length > 0 " lines="full" [(ngModel)]="uid" placeholder="See players" (click)="refreshPlayers()">
+    <ion-select-option *ngFor="let item of friendList">{{item.displayName}}</ion-select-option>
+  </ion-select>
+
+  <p *ngIf="testFL?.length < 1">No tienes amigos: Ve al icono arriba a la derecha y crea una lista de amigos</p>
+
+  <ion-col *ngIf="game.idGame!=undefined && friendList != undefined  && id != '' && testFL?.length > 0" class="ion-align-self-start">
     <div class="col text-center">
       <ion-button (click)="guardar()" expand="block">
-      Add player
-      <ion-icon slot="end" name="add-outline"></ion-icon>
-      </ion-button>  
+        Add player
+        <ion-icon slot="end" name="add-outline"></ion-icon>
+      </ion-button>
     </div>
-  
-  
-  <h3>Select gamemode</h3>
+
+
+    <h3>Select gamemode</h3>
     <ion-button (click)="enter()" expand="block">
       Single Player
-    <ion-icon name="arrow-forward-sharp"></ion-icon>
+      <ion-icon name="arrow-forward-sharp"></ion-icon>
     </ion-button>
-    <ion-button (click)="enter()" expand="block">
-    MultiPlayer
-    <ion-icon name="arrow-forward-sharp"></ion-icon>
+    <ion-button *ngIf="game.idGame!=undefined && friendList != undefined  && isPlayerSelected && testFL?.length > 0" (click)="enter()" expand="block">
+      MultiPlayer
+      <ion-icon name="arrow-forward-sharp"></ion-icon>
     </ion-button>
   </ion-col>
   <hr>
-  
-  <ion-button style="position: absolute; right: 6%; width: 40%"(click)="firebaseService.signOut()">Logout</ion-button>
-  <ion-button style="position: absolute; left: 6%; width: 40%"(click)="verID()">Ver ID</ion-button>
-<br>
-<br>
+
+  <ion-button style="position: absolute; right: 6%; width: 40%" (click)="firebaseService.signOut()">Logout</ion-button>
+  <ion-button style="position: absolute; left: 6%; width: 40%" (click)="verID()">Ver ID</ion-button>
+  <br>
+  <br>
 </ion-content>
-</ion-app>

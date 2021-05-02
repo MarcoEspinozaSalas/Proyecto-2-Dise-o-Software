@@ -63,6 +63,13 @@ export class LoginPage implements OnInit {
     this.dataPlayer.email = this.datosUsuarioLoggedIn.user.email;
     this.othelloService.postPlayer(this.dataPlayer)
       .subscribe((data:any)=>{
+        if (data.FriendList == undefined) {
+          localStorage.setItem('FriendList',JSON.stringify(''))
+          localStorage.setItem('ListName',JSON.stringify(''))
+        }else {
+          localStorage.setItem('FriendList',JSON.stringify(data.FriendList))
+          localStorage.setItem('ListName',JSON.stringify(data.ListName))
+        }
       });
     this.router.navigate(['/lobby'])
     }).catch(_error => {
@@ -81,6 +88,13 @@ export class LoginPage implements OnInit {
       this.dataPlayer.email = this.datosUsuarioLoggedIn.user.email;
       this.othelloService.postPlayer(this.dataPlayer)
         .subscribe((data:any)=>{
+          if (data.FriendList == undefined) {
+            localStorage.setItem('FriendList',JSON.stringify(''))
+            localStorage.setItem('ListName',JSON.stringify(''))
+          }else {
+            localStorage.setItem('FriendList',JSON.stringify(data.FriendList))
+            localStorage.setItem('ListName',JSON.stringify(data.ListName))
+          }
         });
       this.router.navigate(['/lobby'])
     }).catch(_error => {
@@ -100,6 +114,13 @@ export class LoginPage implements OnInit {
         this.dataPlayer.email = this.datosUsuarioLoggedIn.user.email;
         this.othelloService.postPlayer(this.dataPlayer)
           .subscribe((data:any)=>{
+            if (data.FriendList == undefined) {
+              localStorage.setItem('FriendList',JSON.stringify(''))
+              localStorage.setItem('ListName',JSON.stringify(''))
+            }else {
+              localStorage.setItem('FriendList',JSON.stringify(data.FriendList))
+              localStorage.setItem('ListName',JSON.stringify(data.ListName))
+            }
           });
         this.router.navigate(['/lobby'])
       }).catch(_error => {

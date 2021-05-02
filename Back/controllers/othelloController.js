@@ -28,10 +28,15 @@ function boardGenerator() {
     return flatten(boardMatrix);
 }
 
+function FLGenerator() {
+    const friendList = Array(0).fill(null).map(() => Array(0).fill(null))
+    return flatten(friendList);
+}
+
 function flipSquares(squares, position, xIsNext) {
     let modifiedBoard = null;
     let [startX, startY] = [position % 8, (position - position % 8) / 8];
- 
+
     if (squares[position] !== null) {
         return null;
     }
@@ -56,13 +61,13 @@ function flipSquares(squares, position, xIsNext) {
                 continue;
             }
 
-            
+
             else if ((flippedSquares[y] === (xIsNext ? 'X' : 'O')) && atLeastOneMarkIsFlipped) {
                 flippedSquares[position] = xIsNext ? 'X' : 'O';
                 modifiedBoard = flippedSquares.slice();
             }
             break;
-            
+
         }
     });
 
@@ -137,7 +142,7 @@ async function getPlayerInfo(uid) {
 router.get('/newGame', async (req, res) => {
     try {
 
-        const { uid, displayName } = await getPlayerInfo(req.query.createdBy)       
+        const { uid, displayName } = await getPlayerInfo(req.query.createdBy)
         var db = firebase.firestore();
 
         db.collection('games').add({
@@ -179,6 +184,8 @@ router.post('/savePlayerInformation', async (req, res) => {
 
         var pool = firebase.firestore();
         var alreadyExist = true;
+        var idFriendList;
+        var listName;
 
         await pool.collection('registeredUsers')
             .get()
@@ -190,11 +197,22 @@ router.post('/savePlayerInformation', async (req, res) => {
                 });
             });
 
+        await pool.collection('friendList')
+            .get()
+            .then(snapshot => {
+                snapshot.forEach(async doc => {
+                    if (await doc.data().listOwner.uid === uid) {
+                        idFriendList = doc.id;
+                        listName = doc.data().listName;
+                    }
+                });
+            });
+
         if (alreadyExist) {
             await saveInformation(uid, email, displayName);
         }
 
-        res.status(status.OK).json({ success: 200 })
+        res.status(status.OK).json({ FriendList: idFriendList, ListName: listName, success: 200 })
 
     } catch (err) {
         res.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
@@ -286,12 +304,6 @@ router.post('/editGame', async (req, res) => {
     const xPlay = req.body.xPlay;
     const currentPlayer = req.body.currentPlayer;
 
-    /* console.log(idGame);
-    console.log(boardGame);
-    console.log(position);
-    console.log(xPlay);
-    console.log(currentPlayer);  */
-
     let modifiedBoard = flipSquares(boardGame, position, xPlay);
 
     if (modifiedBoard !== null) {
@@ -308,7 +320,7 @@ router.post('/editGame', async (req, res) => {
             var pool = firebase.firestore();
 
             await pool.collection('games').doc(idGame).update({
-                
+
                 boardGame: modifiedBoard,
                 xPlay: !xPlay,
                 currentPlayer: currentPlayer,
@@ -375,5 +387,147 @@ router.get('/getAllplayers', async (req, res) => {
     }
 })
 
+//Lista de amigos
+
+router.post('/createdFL', async (req, res) => {
+
+    const listOwner = await getPlayerInfo(req.body.idListOwner)
+    const listName = req.body.listName;
+
+    var alreadyExist = false;
+
+    try {
+
+        var db = firebase.firestore();
+
+        await db.collection('friendList')
+            .get()
+            .then(snapshot => {
+                snapshot.forEach(async doc => {
+                    if (await doc.data().listOwner.uid === listOwner.uid) {
+                        alreadyExist = true;
+                    }
+                });
+            });
+
+        if (!alreadyExist) {
+          db.collection('friendList').add({
+              listOwner: listOwner,
+              listName: listName,
+              friendList: FLGenerator()
+
+          }).then(response => {
+              res.status(status.OK).json({ idFriendList: response.id, ListName: listName});
+          }).catch(err => {
+              res.status(status.INTERNAL_SERVER_ERROR).json(err);
+          });
+        }
+        else
+          res.status(status.OK).json({ message: 'Already Exist' });
+
+    } catch (err) {
+        res.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
+    }
+});
+
+
+router.get('/getFriendListByOwner', async (req, res) => {
+
+    const idListOwner = req.query.idListOwner;
+
+    try {
+
+        var db = firebase.firestore();
+
+        var data = '';
+
+        db.collection('friendList').where('listOwner.uid', "==", idListOwner).get()
+        .then(snapshot => {
+          snapshot.forEach(async doc => {
+            data = doc.data();
+          });
+            res.status(status.OK).json({data});
+        }).catch(err => {
+            res.status(status.INTERNAL_SERVER_ERROR).json(err);
+        });
+
+    } catch (err) {
+        res.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
+    }
+});
+
+
+
+router.put('/editFriendList', async (req, res) => {
+
+    const idList = req.body.idList;
+    const listName = req.body.listName;
+
+    try {
+
+        var db = firebase.firestore();
+
+        db.collection('friendList').doc(idList).update({
+            listName: listName
+
+        }).then(response => {
+            res.status(status.OK).json({ idFriendList: response.id });
+        }).catch(err => {
+            res.status(status.INTERNAL_SERVER_ERROR).json(err);
+        });
+
+    } catch (err) {
+        res.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
+    }
+});
+
+
+router.put('/addFriend', async (req, res) => {
+    try {
+
+        const idList = req.body.idList;
+        const friend= await getPlayerInfo(req.body.idFriend)
+
+        var db = firebase.firestore();
+
+        let ref = db.collection('friendList').doc(idList);
+
+        let updateList = ref.update({
+            friendList: firebase.firestore.FieldValue.arrayUnion(friend)
+
+        }).then(response => {
+            res.status(status.OK).json({ success: 200 });
+        }).catch(err => {
+            res.status(status.INTERNAL_SERVER_ERROR).json(err);
+        });
+
+    } catch (err) {
+        res.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
+    }
+});
+
+router.put('/removeFriend', async (req, res) => {
+    try {
+
+        const idList = req.body.idList;
+        const friend= await getPlayerInfo(req.body.idFriend)
+
+        var db = firebase.firestore();
+
+        let ref = db.collection('friendList').doc(idList);
+
+        let updateList = ref.update({
+            friendList: firebase.firestore.FieldValue.arrayRemove(friend)
+
+        }).then(response => {
+            res.status(status.OK).json({ success: 200 });
+        }).catch(err => {
+            res.status(status.INTERNAL_SERVER_ERROR).json(err);
+        });
+
+    } catch (err) {
+        res.status(status.INTERNAL_SERVER_ERROR).json({ error: err });
+    }
+});
 
 module.exports = router;

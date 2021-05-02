@@ -32,27 +32,29 @@ export class LobbyPage implements OnInit {
   uid = '';
   secondPlayer: '';
   id='';
-
+  idFL:any;
+  friendList:any;
+  testFL= [];
+  isPlayerSelected = false;
 
   constructor(private router: Router, private firebaseService: FirebaseService,public navCtrl: NavController, public http: HttpClient,
     private othello : OthelloService, public toastController: ToastController) {
      this.datosUsuarioLoggedIn = JSON.parse(localStorage.getItem('user'));
+     this.idFL = JSON.parse(localStorage.getItem('FriendList'));
     if (this.datosUsuarioLoggedIn == null) {
      this.router.navigate(['/login'])
     }
-
-      this.othello.getAllPlayers()
-        .subscribe(
-          data => {
-             this.UserList = [{data}];
-             this.displayNames = this.UserList[0].data.users
-             //console.log(this.displayNames)
-                  },
-          err => {
-                    console.log(err);
-                  }
-      );
-
+    this.othello.getAllPlayers()
+      .subscribe(
+        data => {
+           this.UserList = [{data}];
+           this.displayNames = this.UserList[0].data.users
+                },
+        err => {
+                  console.log(err);
+                }
+    );
+      this.refreshPlayers();
    }
    ionViewDidLoad(){
   }
@@ -102,8 +104,6 @@ export class LobbyPage implements OnInit {
       console.log(err);
     }
     )
-
-
   }
 
   ngOnInit() {
@@ -127,6 +127,7 @@ export class LobbyPage implements OnInit {
           this.error();
         }
       )
+      this.isPlayerSelected = true;
   }
 
   enter(){
@@ -147,5 +148,18 @@ export class LobbyPage implements OnInit {
 
   }
 
+  refreshPlayers(){
+    this.othello.getFL(this.datosUsuarioLoggedIn.user.uid)
+    .subscribe((data:any)=>{
+        this.friendList = data.data.friendList;
+        this.testFL = data.data.friendList;
+    });
+
+  }
+
+
+  ionViewWillEnter(){
+    this.refreshPlayers();
+  }
 
 }

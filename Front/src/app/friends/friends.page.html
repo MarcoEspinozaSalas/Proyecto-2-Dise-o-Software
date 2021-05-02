@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color :#00FFB3;">Friends List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+
+  <form *ngIf="idFriendList == ''">
+    <ion-item lines="full">
+      <ion-label position="floating">List Name</ion-label>
+      <ion-input type="text" name="listName" [(ngModel)]="listName" required></ion-input>
+    </ion-item>
+
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" expand="block" (click)="createFL()">Create lista de amigos</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+
+  <h4 *ngIf="listName != ''">Nombre de su lista de amigos: <br> <br>{{listName}}</h4>
+  <br>
+  <h4 *ngIf="idFriendList != ''"> Miembros de tu lista de amigos</h4>
+  <ion-select *ngIf="idFriendList != ''" interface="popover" lines="full" placeholder="Ver amigos" [(ngModel)]="idFriendToDelete">
+    <ion-select-option *ngFor="let item of friendList" value={{item.uid}}>{{item.displayName}}</ion-select-option>
+  </ion-select>
+
+  <ion-col *ngIf="idFriendList != ''" class="ion-align-self-start">
+    <div class="col text-center">
+      <ion-button (click)="deleteFriend()" expand="block">
+        Eliminar amigo
+        <ion-icon slot="end" name="trash-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-col>
+
+  <br>
+
+  <h4 *ngIf="idFriendList != ''"> Elije un usuario para agregar a tu lista de amigos</h4>
+  <ion-select *ngIf="idFriendList != ''" lines="full" placeholder="Ver usuarios" [(ngModel)]="idFriendToAdd">
+    <ion-select-option *ngFor="let item of allPlayers" value={{item.uid}}>{{item.displayName}}</ion-select-option>
+  </ion-select>
+
+  <ion-col *ngIf="idFriendList != ''" class="ion-align-self-start">
+    <div class="col text-center">
+      <ion-button (click)="addFriend()" expand="block">
+        Agregar amigo
+        <ion-icon slot="end" name="add-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-col>
+</ion-content>

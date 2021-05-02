@@ -5,6 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { infoPlayerModel } from '../models/infoPlayer';
 import { addPlayerModal } from './../models/addPlayerModal';
 import { editGame } from './../models/editGame';
+import { friendList } from './../models/friendList';
+import { editFL } from './../models/editFL';
+import { friend } from './../models/friend';
 //Environment
 import { environment } from '../../environments/environment';
 import { skipTurn } from '../models/skpTurn';
@@ -56,4 +59,37 @@ export class OthelloService {
   ){
     return this.http.post(`${environment.urlRootBack}/skipTurn`,data);
   }
+
+  //Lista de amigos
+
+  createFL(
+    data: friendList
+  ){
+    return this.http.post(`${environment.urlRootBack}/createdFL`, data);
+  }
+
+  getFL(
+    idListOwner:string
+  ){
+    return this.http.get(`${environment.urlRootBack}/getFriendListByOwner?idListOwner=${idListOwner}`);
+  }
+
+  editFL(
+    data: editFL
+  ){
+    return this.http.put(`${environment.urlRootBack}/editFriendList`, data);
+  }
+
+  addFriend(
+    data: friend
+  ){
+      return this.http.put(`${environment.urlRootBack}/addFriend`, data);
+  }
+
+  removeFriend(
+    data: friend
+  ){
+      return this.http.put(`${environment.urlRootBack}/removeFriend`, data);
+  }
+
 }

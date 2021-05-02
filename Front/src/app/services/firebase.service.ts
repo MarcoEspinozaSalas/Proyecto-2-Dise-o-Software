@@ -67,8 +67,12 @@ export class FirebaseService {
 
   signOut(): void
   {
+
     this.firebaseAuth.signOut();
     localStorage.removeItem('user')
+    localStorage.removeItem('FriendList')
+    localStorage.removeItem('FriendListName')
+    localStorage.removeItem('ListName')
     this.router.navigate(['/home']);
   }
 
