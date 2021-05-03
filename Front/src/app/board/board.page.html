@@ -5,35 +5,32 @@
 </ion-header>
 
 <ion-content>
+
   <ion-row>
     <ion-col style='width:50%; '>
       <ion-card style='text-align: center;'>
-        <p class="pText1"> {{actualPlayer}}</p>
+        <p id="pt1" class='clpt1'> {{actualPlayer}}</p>
         <p>Score:</p>
         <h3>{{sc1}}</h3>
-        <h4 id="pt1" class='clpt1'>***</h4>
       </ion-card>
     </ion-col>
 
     <ion-col style='width:50%;'>
       <ion-card style='text-align: center;'>
-        <p class="pText2">{{secondPlayer}}</p>
+        <p id="pt2" class='clpt2'>{{secondPlayer}}</p>
         <p>Score:</p>
         <h3>{{sc2}}</h3>
-        <h4 id="pt2" class='clpt2'>***</h4>
       </ion-card>
     </ion-col>
   </ion-row>
-
-
+  
   <ion-grid>
     <ion-row no-padding>
       <ion-col *ngFor="let c of esto2; index as indexButton"  class='tablero' (click)="jugada(indexButton)">
         <button  id="{{'button' + indexButton}}" class="button" style="opacity: 0;"></button>
-        <div *ngIf="c != null; else paint(indexButton,c);"></div>
+        <div *ngIf="c == null; else paint(indexButton,c);"></div>
       </ion-col>
     </ion-row>
   </ion-grid>
-  
 
 </ion-content>
