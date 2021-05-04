@@ -15,7 +15,39 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" [scrollEvents]="true">
+<ion-content *ngIf="!toCreate && !toPlay">
+  <ion-fab horizontal="center" vertical="center" slot="fixed">
+    <ion-fab-button color="light">
+      <ion-icon name="share"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button class="options" color="primary" (click)="goToPlay()">
+        <p class="textIcon">Join</p>
+        <ion-icon class="test" name="log-in-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+    <ion-fab-list side="end">
+      <ion-fab-button class="options" color="primary">
+        <p class="textIcon">Stats</p>
+        <ion-icon class="test" name="stats-chart"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+    <ion-fab-list side="bottom">
+      <ion-fab-button class="options" color="primary">
+        <p class="textIcon">Spectate</p>
+        <ion-icon class="test" name="eye-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+    <ion-fab-list side="start">
+      <ion-fab-button class="options" color="primary" (click)="goToCreate()">
+        <p class="textIcon">Create</p>
+        <ion-icon class="test" name="create-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>
+
+<ion-content *ngIf="toCreate" class="ion-padding" [scrollEvents]="true">
   <h3>Create new game</h3>
   <ion-button (click)=" createNewGame()" expand="block">
     Create
@@ -41,7 +73,6 @@
       </ion-button>
     </div>
 
-
     <h3>Select gamemode</h3>
     <ion-button (click)="enter()" expand="block">
       Single Player
@@ -52,10 +83,22 @@
       <ion-icon name="arrow-forward-sharp"></ion-icon>
     </ion-button>
   </ion-col>
-  <hr>
+  <ion-button (click)="reset()">Back<ion-icon slot="start" name="arrow-back-circle-outline"></ion-icon>
+  </ion-button>
+</ion-content>
 
+<ion-content *ngIf="toPlay" class="ion-padding" [scrollEvents]="true">
+  <h3>Join to game game</h3>
+  <ion-button class="backButton" (click)="reset()">
+    Back
+    <ion-icon slot="start" name="arrow-back-circle-outline"></ion-icon>
+  </ion-button>
+</ion-content>
+
+<ion-footer class="ion-padding">
+  <hr>
   <ion-button style="position: absolute; right: 6%; width: 40%" (click)="firebaseService.signOut()">Logout</ion-button>
   <ion-button style="position: absolute; left: 6%; width: 40%" (click)="verID()">Ver ID</ion-button>
   <br>
   <br>
-</ion-content>
+</ion-footer>

@@ -15,6 +15,7 @@ export class ChatPage implements OnInit {
   message = '';
   messages = [];
   currentUser = '';
+  userTyping = '';
 
   constructor(private socket: Socket, private toast:ToastService) {}
 
@@ -41,6 +42,19 @@ export class ChatPage implements OnInit {
      this.messages.push(message);
    });
 
+   this.socket.fromEvent('typing').subscribe(data => {
+
+     var typingElement = document.getElementById("p1") as HTMLInputElement;
+     if (this.currentUser != data['user']) {
+       this.userTyping = data['user'];
+       typingElement.innerHTML =  this.userTyping + ": is typing";
+     }
+     if (!data['state']) {
+       typingElement.innerHTML = "";
+     }
+
+   })
+
   }
 
   sendMessage() {
@@ -52,6 +66,14 @@ export class ChatPage implements OnInit {
     this.socket.disconnect();
   }
 
+  onKey(event){
+    if (this.message.length > 0) {
+      this.socket.emit('chat-typing', { user: this.currentUser, state: true });
+    }
+    else{
+      this.socket.emit('chat-typing', { user: this.currentUser, state: false });
+    }
 
+  }
 
 }

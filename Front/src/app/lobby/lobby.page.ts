@@ -37,6 +37,9 @@ export class LobbyPage implements OnInit {
   testFL= [];
   isPlayerSelected = false;
 
+  toCreate = false;
+  toPlay = false;
+
   constructor(private router: Router, private firebaseService: FirebaseService,public navCtrl: NavController, public http: HttpClient,
     private othello : OthelloService, public toastController: ToastController) {
      this.datosUsuarioLoggedIn = JSON.parse(localStorage.getItem('user'));
@@ -160,6 +163,18 @@ export class LobbyPage implements OnInit {
 
   ionViewWillEnter(){
     this.refreshPlayers();
+  }
+
+  goToCreate(){
+    this.toCreate = true;
+  }
+  goToPlay(){
+    this.toPlay = true;
+  }
+
+  reset(){
+    this.toCreate = false;
+    this.toPlay = false;
   }
 
 }

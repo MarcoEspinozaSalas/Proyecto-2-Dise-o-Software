@@ -24,6 +24,10 @@ io.on('connection', (socket) => {
   socket.on('send-message', (message) => {
     io.emit('message', {msg: message.text, user: socket.username, createdAt: new Date()});
   });
+
+  socket.on('chat-typing', (userTyping) => {
+    io.emit('typing', {user: userTyping.user, state: userTyping.state});
+  })
 });
 
 
