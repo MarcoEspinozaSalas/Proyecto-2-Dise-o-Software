@@ -39,6 +39,8 @@ export class ChatPage implements OnInit {
     })
 
     this.socket.fromEvent('message').subscribe(message => {
+      var typingElement = document.getElementById("p1") as HTMLInputElement;
+      typingElement.innerHTML = "";
      this.messages.push(message);
    });
 
