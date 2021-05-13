@@ -110,13 +110,14 @@ export class BoardPage implements AfterViewInit, OnInit {
   }
 
   jugada(index:number){
+    this.socket.emit('click-refresh', { test: true });
     if(this.current == this.game.player1.playerId){
       this.refresh('X',index);
     }
     else if(this.current == this.game.player2.playerId){
       this.refresh2('O',index);
     }
-    this.socket.emit('click-refresh', { test: true });
+    this.socket.disconnect();
   }
 
   refresh(turn:string, index:number){
