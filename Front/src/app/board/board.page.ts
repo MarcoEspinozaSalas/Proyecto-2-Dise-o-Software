@@ -59,7 +59,7 @@ export class BoardPage implements AfterViewInit, OnInit {
 
   ngOnInit(){
     this.socket.connect();
-    this.current = this.datosUsuarioLoggedIn.user.uid;
+    this.current = this.game.player1.playerName;
     this.socket.fromEvent('refresh').subscribe(message => {
       //console.log(message);
       this.actRef();
@@ -110,7 +110,7 @@ export class BoardPage implements AfterViewInit, OnInit {
   }
 
   jugada(index:number){
-    //this.socket.emit('click-refresh', { test: true });
+    
     if(this.current == this.game.player1.playerId){
       this.refresh('X',index);
     }
@@ -132,8 +132,10 @@ export class BoardPage implements AfterViewInit, OnInit {
         if (data.success==200) {
           this.currentName = this.game.player2.playerName;
           this.current = this.game.player2.playerId;
-          
+          this.socket.emit('click-refresh', { test: true });
         }
+        console.log(data);
+        
       }
     );
     this.othello.enterGame(this.gameId)
@@ -163,9 +165,12 @@ export class BoardPage implements AfterViewInit, OnInit {
     .subscribe(
       (data:any )=>{
         if (data.success==200) {
+          
           this.currentName = this.game.player1.playerName;
           this.current = this.game.player1.playerId;
+          this.socket.emit('click-refresh', { test: true });
         }
+        console.log(data);
       }
     );
     this.othello.enterGame(this.gameId)
