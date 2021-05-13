@@ -71,7 +71,7 @@ export class BoardPage implements AfterViewInit, OnInit {
   }
 
   ionViewWillLeave() {
-   this.socket.disconnect();
+   //this.socket.disconnect();
   }
 
   async winner(a:string) {
@@ -83,15 +83,6 @@ export class BoardPage implements AfterViewInit, OnInit {
     toast.present();
   }
 
-  show(){
-    if (this.varHtml==1) {
-      var t = document.getElementById('hrt') as HTMLInputElement;
-      t.classList.add("hrt2");
-    }else if (this.varHtml==0) {
-      var t = document.getElementById('hrt') as HTMLInputElement;
-      t.classList.add("hrt1");
-    }
-  }
 
   paint(c:number,p:string){
     if(p!=null){
@@ -111,6 +102,9 @@ export class BoardPage implements AfterViewInit, OnInit {
   }
 
   jugada(index:number){
+    console.log(this.current);
+    console.log(this.currentName);
+    
     if(this.current == this.game.player1.playerId){
       this.refresh('X',index);
     }
