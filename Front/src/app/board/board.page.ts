@@ -51,6 +51,7 @@ export class BoardPage implements AfterViewInit, OnInit {
           this.sc1 = this.game.score.player1;
           this.sc2 = this.game.score.player2;
           this.currentName = this.game.player1.playerName;
+          this.current = this.game.player1.playerName;
         });
     if (this.datosUsuarioLoggedIn == null) {
      this.router.navigate(['/login'])
@@ -59,7 +60,7 @@ export class BoardPage implements AfterViewInit, OnInit {
 
   ngOnInit(){
     this.socket.connect();
-    this.current = this.game.player1.playerName;
+    
     this.socket.fromEvent('refresh').subscribe(message => {
       //console.log(message);
       this.actRef();
