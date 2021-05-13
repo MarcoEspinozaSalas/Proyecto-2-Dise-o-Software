@@ -371,7 +371,7 @@ router.get('/getGame', async (req, res) => {
     try {
         var db = firebase.firestore();
         const idGame = req.query.idGame;
-
+        console.log(idGame)
         if (idGame) {
             const gameRef = db.collection('games').doc(idGame);
             const docGame = await gameRef.get();

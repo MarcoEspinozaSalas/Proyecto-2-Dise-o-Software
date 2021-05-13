@@ -108,7 +108,7 @@
   <h3>Join to game</h3>
   <ion-button (click)="getAllPlayerGames()">Espectar juego</ion-button>
   <p *ngIf="noconts"> ID de juego: </p>
-  <ion-select *ngIf="noconts"[(ngModel)]="idSpectate">
+  <ion-select *ngIf="noconts" [(ngModel)]="idSpectate">
     <ion-select-option *ngFor="let item of listAllGames">{{item}}</ion-select-option>
   </ion-select>
   <ion-button *ngIf="noconts"  class="backButton" (click)="enterGame()">

@@ -56,9 +56,11 @@ export class OthelloService {
   }
 
   enterGame(
-    id: string,
+    idXgames: string,
   ){
-    return this.http.get(`${environment.urlRootBack}/getGame?idGame=${id}`);
+    console.log(idXgames);
+    
+    return this.http.get(`${environment.urlRootBack}/getGame?idGame=${idXgames}`);
   }
 
   editGame(

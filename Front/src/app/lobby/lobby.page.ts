@@ -183,7 +183,7 @@ export class LobbyPage implements OnInit {
     .subscribe((data:any)=>{
          console.log(data);    
          this.listAllGames = data.games;
-        this.noconts = true;
+         this.noconts = true;
 
     });
 
@@ -209,6 +209,7 @@ JoinGame(){
   if(this.idSpectate == " "){
     this.errorDatos();
   }else{
+    console.log(this.idSpectate);
       this.othello.enterGame(this.idSpectate)
       .subscribe(
         (data:any)=>{
