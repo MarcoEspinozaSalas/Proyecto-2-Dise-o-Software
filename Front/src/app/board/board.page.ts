@@ -41,7 +41,7 @@ export class BoardPage implements AfterViewInit, OnInit {
   constructor(private router: Router, private firebaseService: FirebaseService,public navCtrl: NavController, public http: HttpClient,
     private othello : OthelloService, private socket: Socket) {
       this.datosUsuarioLoggedIn = JSON.parse(localStorage.getItem('user'));
-      this.actualPlayer = this.datosUsuarioLoggedIn.user.displayName;
+      
       this.gameId = localStorage.getItem('idGameCreated')
       this.othello.enterGame(this.gameId)
         .subscribe( ( data:any ) => {
@@ -50,6 +50,7 @@ export class BoardPage implements AfterViewInit, OnInit {
           this.esto2 = this.game.boardGame;
           this.sc1 = this.game.score.player1;
           this.sc2 = this.game.score.player2;
+          this.actualPlayer = this.game.player1.playerName;
           this.currentName = this.game.player1.playerName;
           this.current = this.game.player1.playerId;
         });
