@@ -50,7 +50,6 @@ export class BoardPage implements AfterViewInit, OnInit {
           this.esto2 = this.game.boardGame;
           this.sc1 = this.game.score.player1;
           this.sc2 = this.game.score.player2;
-          this.current = this.game.player1.playerName;
           this.currentName = this.game.player1.playerName;
         });
     if (this.datosUsuarioLoggedIn == null) {
@@ -60,9 +59,9 @@ export class BoardPage implements AfterViewInit, OnInit {
 
   ngOnInit(){
     this.socket.connect();
-    
+    this.current = this.datosUsuarioLoggedIn.user.uid;
     this.socket.fromEvent('refresh').subscribe(message => {
-      
+      console.log(message);
       this.actRef();
    });
   }
@@ -118,7 +117,6 @@ export class BoardPage implements AfterViewInit, OnInit {
       this.refresh2('O',index);
     }
     this.socket.emit('click-refresh', { test: true });
-    
   }
 
   refresh(turn:string, index:number){
@@ -130,7 +128,7 @@ export class BoardPage implements AfterViewInit, OnInit {
     this.othello.editGame(this.editGameWJugada)
     .subscribe(
       (data:any )=>{
-        
+        //console.log(data);
         if (data.success==200) {
           this.currentName = this.game.player2.playerName;
           this.current = this.game.player2.playerId;
@@ -163,6 +161,7 @@ export class BoardPage implements AfterViewInit, OnInit {
     this.othello.editGame(this.editGameWJugada)
     .subscribe(
       (data:any )=>{
+        //console.log(data);
         if (data.success==200) {
           this.currentName = this.game.player1.playerName;
           this.current = this.game.player1.playerId;
