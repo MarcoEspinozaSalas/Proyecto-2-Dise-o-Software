@@ -61,7 +61,6 @@ export class BoardPage implements AfterViewInit, OnInit {
     this.socket.connect();
     this.current = this.datosUsuarioLoggedIn.user.uid;
     this.socket.fromEvent('refresh').subscribe(message => {
-      console.log(message);
       this.actRef();
    });
   }
