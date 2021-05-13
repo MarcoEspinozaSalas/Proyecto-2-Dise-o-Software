@@ -31,13 +31,13 @@
   </ion-row>
 
   <ion-card style='text-align: center;'>
-    <p >{{currentName}}</p>
+    <p (click)='actRef()' >{{currentName}}</p>
   </ion-card>
 
 
   <ion-grid>
     <ion-row no-padding>
-      <ion-col *ngFor="let c of esto2; index as indexButton"  class='tablero' (click)="jugada(indexButton)">
+      <ion-colmn id='colId' *ngFor="let c of esto2; index as indexButton"  class='tablero' (click)="jugada(indexButton)">
         <button  id="{{'button' + indexButton}}" class="button" style="opacity: 0;"></button>
         <div *ngIf="c == null; else paint(indexButton,c);"></div>
       </ion-col>

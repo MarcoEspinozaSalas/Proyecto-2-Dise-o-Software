@@ -19,7 +19,6 @@ import { skipTurn } from './../models/skpTurn'
 export class BoardPage implements AfterViewInit, OnInit {
   editGameWJugada = new editGame();
   skipTurn = new skipTurn();
-
   esto2 : any;
   datosUsuarioLoggedIn : any;
   gameId : string;
@@ -34,7 +33,6 @@ export class BoardPage implements AfterViewInit, OnInit {
   varHtml=0;
   var1:number;
   var2:string;
-
   playerTurnName: '';
   playerTurn=1;
   toastController: any;
@@ -94,6 +92,11 @@ export class BoardPage implements AfterViewInit, OnInit {
         buttonA.classList.add("mostrar")
       }
     }
+  }
+
+  actRef(){
+    let element = <HTMLInputElement>document.getElementById("colId");
+    element.click();
   }
 
   jugada(index:number){  
