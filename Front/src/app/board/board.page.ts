@@ -116,6 +116,7 @@ export class BoardPage implements AfterViewInit, OnInit {
     else if(this.current == this.game.player2.playerId){
       this.refresh2('O',index);
     }
+    this.socket.emit('click-refresh', { test: true });
   }
 
   refresh(turn:string, index:number){
@@ -128,7 +129,6 @@ export class BoardPage implements AfterViewInit, OnInit {
     .subscribe(
       (data:any )=>{
         if (data.success==200) {
-          this.socket.emit('click-refresh', { test: true });
           this.currentName = this.game.player2.playerName;
           this.current = this.game.player2.playerId;
           
@@ -162,7 +162,6 @@ export class BoardPage implements AfterViewInit, OnInit {
     .subscribe(
       (data:any )=>{
         if (data.success==200) {
-          this.socket.emit('click-refresh', { test: true });
           this.currentName = this.game.player1.playerName;
           this.current = this.game.player1.playerId;
         }
