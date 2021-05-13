@@ -118,6 +118,7 @@ export class BoardPage implements AfterViewInit, OnInit {
     else if(this.current == this.game.player2.playerId){
       this.refresh2('O',index);
     }
+    this.socket.emit('click-refresh', { test: true });
     //this.socket.disconnect();
   }
 
@@ -133,7 +134,7 @@ export class BoardPage implements AfterViewInit, OnInit {
         if (data.success==200) {
           this.currentName = this.game.player2.playerName;
           this.current = this.game.player2.playerId;
-          this.socket.emit('click-refresh', { test: true });
+
         }
         console.log(data);
         
@@ -169,7 +170,7 @@ export class BoardPage implements AfterViewInit, OnInit {
           
           this.currentName = this.game.player1.playerName;
           this.current = this.game.player1.playerId;
-          this.socket.emit('click-refresh', { test: true });
+          
         }
         console.log(data);
       }
