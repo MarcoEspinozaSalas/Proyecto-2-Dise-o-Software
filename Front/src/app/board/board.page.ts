@@ -60,11 +60,11 @@ export class BoardPage implements AfterViewInit, OnInit {
   }
 
   ngOnInit(){
-    this.socket.connect();
+    /* this.socket.connect();
     
     this.socket.fromEvent('refresh').subscribe(message => {
       this.actRef();
-   });
+   }); */
   }
 
   ngAfterViewInit() {
@@ -117,7 +117,6 @@ export class BoardPage implements AfterViewInit, OnInit {
     else if(this.current == this.game.player2.playerId){
       this.refresh2('O',index);
     }
-    this.socket.emit('click-refresh', { test: true });
   }
 
   refresh(turn:string, index:number){
