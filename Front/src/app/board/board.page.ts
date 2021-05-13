@@ -102,11 +102,16 @@ export class BoardPage implements AfterViewInit, OnInit {
   }
 
   jugada(index:number){
-    console.log(this.current);
-    console.log(this.currentName);
+    this.othello.enterGame(this.gameId)
+          .subscribe( ( data:any ) => {
+            this.game = data.game;
+            this.current = this.game.currentPlayer;
+        });
     
     if(this.current == this.game.player1.playerId){
       this.refresh('X',index);
+      
+      
     }
     else if(this.current == this.game.player2.playerId){
       this.refresh2('O',index);
