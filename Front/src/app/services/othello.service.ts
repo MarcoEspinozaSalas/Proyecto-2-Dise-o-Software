@@ -28,6 +28,13 @@ export class OthelloService {
   getAllPlayers(){
     return this.http.get(`${environment.urlRootBack}/getAllplayers`);
   }
+  getAllGames(
+    playerId:string
+    ){
+    
+    return this.http.get(`${environment.urlRootBack}/getPlayerGames?playerId=${playerId}`);
+  }
+
 
   getGame(
     uid:string

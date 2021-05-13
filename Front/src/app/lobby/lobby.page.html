@@ -89,6 +89,15 @@
 
 <ion-content *ngIf="toPlay" class="ion-padding" [scrollEvents]="true">
   <h3>Join to game game</h3>
+  <ion-button (click)="getPlayerGames()">Ver juegos</ion-button>
+  <p *ngIf="conts"> ID de juego: </p>
+  <ion-select *ngIf="conts"[(ngModel)]="idJoinGame">
+    <ion-select-option *ngFor="let item of listGames">{{item}}</ion-select-option>
+  </ion-select>
+  <ion-button *ngIf="conts"  class="backButton" (click)="JoinGame()">
+    Join
+    <ion-icon slot="start" name="arrow-back-circle-outline"></ion-icon>
+  </ion-button>
   <ion-button class="backButton" (click)="reset()">
     Back
     <ion-icon slot="start" name="arrow-back-circle-outline"></ion-icon>

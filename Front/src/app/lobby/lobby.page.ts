@@ -32,13 +32,16 @@ export class LobbyPage implements OnInit {
   uid = '';
   secondPlayer: '';
   id='';
+  idJoinGame='';
   idFL:any;
   friendList:any;
   testFL= [];
   isPlayerSelected = false;
+  listGames: any
 
   toCreate = false;
   toPlay = false;
+  conts = false;
 
   constructor(private router: Router, private firebaseService: FirebaseService,public navCtrl: NavController, public http: HttpClient,
     private othello : OthelloService, public toastController: ToastController) {
@@ -160,6 +163,33 @@ export class LobbyPage implements OnInit {
 
   }
 
+  getPlayerGames(){
+    this.othello.getAllGames(this.datosUsuarioLoggedIn.user.uid)
+    .subscribe((data:any)=>{
+         console.log(data.games);    
+         this.listGames = data.games;
+         this.conts = true;
+
+    });
+
+  }
+
+JoinGame(){
+  localStorage.setItem('idGameCreated',this.idJoinGame);
+    if(this.idJoinGame == " "){
+      this.errorDatos()
+    }else{
+      this.othello.enterGame(this.idJoinGame)
+    .subscribe(
+      (data:any)=>{
+        this.router.navigate(['/board'])
+      },
+      err =>{
+        console.log(err);
+      }
+    )
+    }
+}
 
   ionViewWillEnter(){
     this.refreshPlayers();
@@ -175,6 +205,7 @@ export class LobbyPage implements OnInit {
   reset(){
     this.toCreate = false;
     this.toPlay = false;
+    this.conts = false;
   }
 
 }
