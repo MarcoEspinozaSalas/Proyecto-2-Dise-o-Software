@@ -338,7 +338,7 @@ router.post('/editGame', async (req, res) => {
         }
 
     } else {
-        res.status(500).json({ success: 500 })
+        res.status(201).json({ success: 201 })
     }
 
 });

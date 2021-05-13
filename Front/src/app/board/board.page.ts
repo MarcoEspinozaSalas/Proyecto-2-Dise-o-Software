@@ -61,7 +61,7 @@ export class BoardPage implements AfterViewInit, OnInit {
     this.socket.connect();
     this.current = this.datosUsuarioLoggedIn.user.uid;
     this.socket.fromEvent('refresh').subscribe(message => {
-      console.log(message);
+      //console.log(message);
       this.actRef();
    });
   }
@@ -110,7 +110,6 @@ export class BoardPage implements AfterViewInit, OnInit {
   }
 
   jugada(index:number){
-    console.log('jugador actual:',this.current);
     if(this.current == this.game.player1.playerId){
       this.refresh('X',index);
     }
@@ -129,7 +128,7 @@ export class BoardPage implements AfterViewInit, OnInit {
     this.othello.editGame(this.editGameWJugada)
     .subscribe(
       (data:any )=>{
-        console.log(data);
+        
         if (data.success==200) {
           this.currentName = this.game.player2.playerName;
           this.current = this.game.player2.playerId;
@@ -162,7 +161,7 @@ export class BoardPage implements AfterViewInit, OnInit {
     this.othello.editGame(this.editGameWJugada)
     .subscribe(
       (data:any )=>{
-        console.log(data);
+        
         if (data.success==200) {
           this.currentName = this.game.player1.playerName;
           this.current = this.game.player1.playerId;
