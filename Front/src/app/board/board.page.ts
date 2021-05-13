@@ -50,6 +50,7 @@ export class BoardPage implements AfterViewInit, OnInit {
           this.esto2 = this.game.boardGame;
           this.sc1 = this.game.score.player1;
           this.sc2 = this.game.score.player2;
+          this.current = this.game.player1.playerName;
           this.currentName = this.game.player1.playerName;
         });
     if (this.datosUsuarioLoggedIn == null) {
@@ -59,7 +60,8 @@ export class BoardPage implements AfterViewInit, OnInit {
 
   ngOnInit(){
     this.socket.connect();
-    this.current = this.game.player1.playerName;
+    console.log(this.current);
+    
     this.socket.fromEvent('refresh').subscribe(message => {
       console.log(message);
       this.actRef();
