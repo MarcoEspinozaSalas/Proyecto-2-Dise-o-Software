@@ -4,6 +4,7 @@ import { FirebaseService } from '../services/firebase.service';
 import { HttpClient } from '@angular/common/http';
 import { NavController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
+import { Socket } from 'ngx-socket-io';
 //services
 import { OthelloService } from './../services/othello.service';
 
@@ -38,7 +39,7 @@ export class BoardPage implements AfterViewInit, OnInit {
   toastController: any;
 
   constructor(private router: Router, private firebaseService: FirebaseService,public navCtrl: NavController, public http: HttpClient,
-    private othello : OthelloService) {
+    private othello : OthelloService, private socket: Socket) {
       this.datosUsuarioLoggedIn = JSON.parse(localStorage.getItem('user'));
       this.actualPlayer = this.datosUsuarioLoggedIn.user.displayName;
       this.gameId = localStorage.getItem('idGameCreated')
@@ -57,10 +58,19 @@ export class BoardPage implements AfterViewInit, OnInit {
   }
 
   ngOnInit(){
+    this.socket.connect();
     this.current = this.datosUsuarioLoggedIn.user.uid;
-  } 
+    this.socket.fromEvent('refresh').subscribe(message => {
+      console.log(message);
+      this.actRef();
+   });
+  }
 
   ngAfterViewInit() {
+  }
+
+  ionViewWillLeave() {
+   this.socket.disconnect();
   }
 
   async winner(a:string) {
@@ -99,14 +109,15 @@ export class BoardPage implements AfterViewInit, OnInit {
     element.click();
   }
 
-  jugada(index:number){  
+  jugada(index:number){
     console.log('jugador actual:',this.current);
-    if(this.current == this.game.player1.playerId){   
+    if(this.current == this.game.player1.playerId){
       this.refresh('X',index);
     }
     else if(this.current == this.game.player2.playerId){
       this.refresh2('O',index);
     }
+    this.socket.emit('click-refresh', { test: true });
   }
 
   refresh(turn:string, index:number){
@@ -122,7 +133,7 @@ export class BoardPage implements AfterViewInit, OnInit {
         if (data.success==200) {
           this.currentName = this.game.player2.playerName;
           this.current = this.game.player2.playerId;
-        }  
+        }
       }
     );
     this.othello.enterGame(this.gameId)
@@ -138,13 +149,13 @@ export class BoardPage implements AfterViewInit, OnInit {
             else{
               this.winner(this.game.player2.playerName)
             }
-          } 
+          }
     });
   }
 
   refresh2(turn:string, index:number){
     this.editGameWJugada.boardGame = this.esto2;
-    this.editGameWJugada.currentPlayer = this.game.player2.playerId;   
+    this.editGameWJugada.currentPlayer = this.game.player2.playerId;
     this.editGameWJugada.idGame = this.gameId;
     this.editGameWJugada.clickedPosition = index;
     this.editGameWJugada.xPlay =turn;
@@ -172,7 +183,7 @@ export class BoardPage implements AfterViewInit, OnInit {
               this.winner(this.game.player2.playerName)
             }
           }
-          
+
     });
   }
 

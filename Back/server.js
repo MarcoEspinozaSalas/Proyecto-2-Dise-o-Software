@@ -28,6 +28,10 @@ io.on('connection', (socket) => {
   socket.on('chat-typing', (userTyping) => {
     io.emit('typing', {user: userTyping.user, state: userTyping.state});
   })
+
+  socket.on('click-refresh', (test) => {
+    io.emit('refresh', {test});
+  })
 });
 
 
