@@ -38,10 +38,14 @@ export class LobbyPage implements OnInit {
   testFL= [];
   isPlayerSelected = false;
   listGames: any
+  idSpectate= '';
+  listAllGames: any;
 
   toCreate = false;
   toPlay = false;
   conts = false;
+  noconts = false;
+  toSpectate = false;
 
   constructor(private router: Router, private firebaseService: FirebaseService,public navCtrl: NavController, public http: HttpClient,
     private othello : OthelloService, public toastController: ToastController) {
@@ -174,6 +178,17 @@ export class LobbyPage implements OnInit {
 
   }
 
+  getAllPlayerGames(){
+    this.othello.getAllGamesPlayers()
+    .subscribe((data:any)=>{
+         console.log(data);    
+         this.listAllGames = data.games;
+        this.noconts = true;
+
+    });
+
+  }
+
 JoinGame(){
   localStorage.setItem('idGameCreated',this.idJoinGame);
     if(this.idJoinGame == " "){
@@ -190,7 +205,23 @@ JoinGame(){
     )
     }
 }
+  enterGame(){
+  if(this.idSpectate == " "){
+    this.errorDatos();
+  }else{
+      this.othello.enterGame(this.idSpectate)
+      .subscribe(
+        (data:any)=>{
+          this.router.navigate(['/board'])
+        },
+        err =>{
+          console.log(err);
+        }
+      )
+    }
 
+ this.noconts = true;
+}
   ionViewWillEnter(){
     this.refreshPlayers();
   }
@@ -201,11 +232,16 @@ JoinGame(){
   goToPlay(){
     this.toPlay = true;
   }
+  goToSpectate(){
+    this.toSpectate = true;
+  }
 
   reset(){
     this.toCreate = false;
     this.toPlay = false;
     this.conts = false;
+    this.noconts = false;
+    this.toSpectate = false;
   }
 
 }

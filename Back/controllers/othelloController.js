@@ -3,7 +3,7 @@ const router = express.Router();
 const status = require('http-status');
 
 const firebase = require('firebase-admin')
-const serviceAccount = require('../configFireBase/fir-angular-auth-cdb4a-firebase-adminsdk-b03l1-693344e399.json');
+const serviceAccount = require('../configFireBase/proyectodisenno2-78b51-firebase-adminsdk-ngcvl-6594304f46.json');
 
 firebase.initializeApp({
     credential: firebase.credential.cert(serviceAccount),
@@ -242,6 +242,27 @@ router.get('/getPlayerGames', async (req, res) => {
         res.status(status.INTERNAL_SERVER_ERROR).json({ error: err })
     }
 });
+router.get('/getAllGames', async (req, res) => {
+
+    try {
+
+        var pool = firebase.firestore();
+        const gamesRef = await pool.collection('games');
+
+        var games = []
+        await gamesRef.get().then((snapshot) => {
+
+            snapshot.forEach((doc) => {
+                games.push(doc.id);
+            })
+        });
+
+        res.status(status.OK).json({ games: games });
+
+    } catch {
+        res.status(status.INTERNAL_SERVER_ERROR).json({ error: 'Fail getting the games' });
+    }
+});
 
 router.post('/addPlayer', async (req, res) => {
 
@@ -387,6 +408,7 @@ router.get('/getAllplayers', async (req, res) => {
         res.status(status.INTERNAL_SERVER_ERROR).json({ error: 'Fail getting the players' });
     }
 })
+
 
 //Lista de amigos
 
