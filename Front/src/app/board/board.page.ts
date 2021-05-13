@@ -123,9 +123,14 @@ export class BoardPage implements AfterViewInit, OnInit {
     .subscribe(
       (data:any )=>{
         //console.log(data);
+        
         if (data.success==200) {
           this.currentName = this.game.player2.playerName;
-          this.current = this.game.player2.playerId;
+          this.othello.enterGame(this.gameId)
+          .subscribe( ( data:any ) => {
+            this.game = data.game;
+            this.current = this.game.currentPlayer;
+        });
         }
       }
     );
@@ -158,7 +163,11 @@ export class BoardPage implements AfterViewInit, OnInit {
         //console.log(data);
         if (data.success==200) {
           this.currentName = this.game.player1.playerName;
-          this.current = this.game.player1.playerId;
+          this.othello.enterGame(this.gameId)
+          .subscribe( ( data:any ) => {
+            this.game = data.game;
+            this.current = this.game.currentPlayer;
+        });
         }
       }
     );
