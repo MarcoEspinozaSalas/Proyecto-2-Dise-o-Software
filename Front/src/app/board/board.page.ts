@@ -51,7 +51,6 @@ export class BoardPage implements AfterViewInit, OnInit {
           this.sc1 = this.game.score.player1;
           this.sc2 = this.game.score.player2;
           this.currentName = this.game.player1.playerName;
-          this.current = this.game.player1.playerName;
         });
     if (this.datosUsuarioLoggedIn == null) {
      this.router.navigate(['/login'])
@@ -60,9 +59,9 @@ export class BoardPage implements AfterViewInit, OnInit {
 
   ngOnInit(){
     this.socket.connect();
-    
+    this.current = this.game.player1.playerName;
     this.socket.fromEvent('refresh').subscribe(message => {
-      //console.log(message);
+      console.log(message);
       this.actRef();
    });
   }
@@ -111,7 +110,6 @@ export class BoardPage implements AfterViewInit, OnInit {
   }
 
   jugada(index:number){
-    
     if(this.current == this.game.player1.playerId){
       this.refresh('X',index);
     }
@@ -119,7 +117,7 @@ export class BoardPage implements AfterViewInit, OnInit {
       this.refresh2('O',index);
     }
     this.socket.emit('click-refresh', { test: true });
-    //this.socket.disconnect();
+    
   }
 
   refresh(turn:string, index:number){
@@ -131,13 +129,11 @@ export class BoardPage implements AfterViewInit, OnInit {
     this.othello.editGame(this.editGameWJugada)
     .subscribe(
       (data:any )=>{
+        
         if (data.success==200) {
           this.currentName = this.game.player2.playerName;
           this.current = this.game.player2.playerId;
-
         }
-        console.log(data);
-        
       }
     );
     this.othello.enterGame(this.gameId)
@@ -166,13 +162,11 @@ export class BoardPage implements AfterViewInit, OnInit {
     this.othello.editGame(this.editGameWJugada)
     .subscribe(
       (data:any )=>{
+        //console.log(data);
         if (data.success==200) {
-          
           this.currentName = this.game.player1.playerName;
           this.current = this.game.player1.playerId;
-          
         }
-        console.log(data);
       }
     );
     this.othello.enterGame(this.gameId)
