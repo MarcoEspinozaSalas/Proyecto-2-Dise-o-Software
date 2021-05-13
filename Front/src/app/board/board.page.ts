@@ -63,8 +63,8 @@ export class BoardPage implements AfterViewInit, OnInit {
     /* this.socket.connect();
     
     this.socket.fromEvent('refresh').subscribe(message => {
-      this.actRef();
-   }); */
+      this.actRef(); 
+   });*/
   }
 
   ngAfterViewInit() {
@@ -82,7 +82,6 @@ export class BoardPage implements AfterViewInit, OnInit {
     });
     toast.present();
   }
-
 
   paint(c:number,p:string){
     if(p!=null){
@@ -102,16 +101,8 @@ export class BoardPage implements AfterViewInit, OnInit {
   }
 
   jugada(index:number){
-    this.othello.enterGame(this.gameId)
-          .subscribe( ( data:any ) => {
-            this.game = data.game;
-            this.current = this.game.currentPlayer;
-        });
-    
     if(this.current == this.game.player1.playerId){
       this.refresh('X',index);
-      
-      
     }
     else if(this.current == this.game.player2.playerId){
       this.refresh2('O',index);
@@ -128,14 +119,9 @@ export class BoardPage implements AfterViewInit, OnInit {
     .subscribe(
       (data:any )=>{
         //console.log(data);
-        
         if (data.success==200) {
           this.currentName = this.game.player2.playerName;
-          this.othello.enterGame(this.gameId)
-          .subscribe( ( data:any ) => {
-            this.game = data.game;
-            this.current = this.game.currentPlayer;
-        });
+          this.current = this.game.player2.playerId;
         }
       }
     );
@@ -168,11 +154,7 @@ export class BoardPage implements AfterViewInit, OnInit {
         //console.log(data);
         if (data.success==200) {
           this.currentName = this.game.player1.playerName;
-          this.othello.enterGame(this.gameId)
-          .subscribe( ( data:any ) => {
-            this.game = data.game;
-            this.current = this.game.currentPlayer;
-        });
+          this.current = this.game.player1.playerId;
         }
       }
     );
@@ -190,7 +172,6 @@ export class BoardPage implements AfterViewInit, OnInit {
               this.winner(this.game.player2.playerName)
             }
           }
-
     });
   }
 
