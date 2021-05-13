@@ -17,7 +17,6 @@ import { skipTurn } from './../models/skpTurn'
   styleUrls: ['./board.page.scss'],
 })
 export class BoardPage implements AfterViewInit, OnInit {
-
   editGameWJugada = new editGame();
   skipTurn = new skipTurn();
 
@@ -26,9 +25,16 @@ export class BoardPage implements AfterViewInit, OnInit {
   gameId : string;
   actualPlayer: '';
   secondPlayer: '';
+  current: '';
   sc1:0;
   sc2:0;
+  sc:0;
   game: any;
+
+  var1:number;
+  var2:string;
+
+  playerTurnName: '';
   playerTurn=1;
 
   constructor(private router: Router, private firebaseService: FirebaseService,public navCtrl: NavController, public http: HttpClient,
@@ -39,6 +45,7 @@ export class BoardPage implements AfterViewInit, OnInit {
       this.othello.enterGame(this.gameId)
         .subscribe( ( data:any ) => {
           this.game = data.game;
+          
           this.secondPlayer = this.game.player2.playerName;
           this.esto2 = this.game.boardGame;
           this.sc1 = this.game.score.player1;
@@ -48,15 +55,16 @@ export class BoardPage implements AfterViewInit, OnInit {
      this.router.navigate(['/login'])
     }
   }
+
   ngOnInit(){
-    var card1 = document.getElementById("pt1") as HTMLInputElement;
-    card1.classList.add("pt1");
-    var card2 = document.getElementById("pt2") as HTMLInputElement;
-    card2.classList.remove("pt2");
-  }
+    this.current = this.datosUsuarioLoggedIn.user.uid;
+   
+  } 
 
   ngAfterViewInit() {
   }
+
+
 
   paint(c:number,p:string){
     if(p!=null){
@@ -71,71 +79,74 @@ export class BoardPage implements AfterViewInit, OnInit {
       }
     }
   }
-  
 
-
-  jugada(index:number){
-   
-    console.log(this.playerTurn);
-    
-    let turn;
-    if(this.playerTurn==1){    
-      console.log(this.playerTurn);
-      
-      var card1 = document.getElementById("pt1") as HTMLInputElement;
-      card1.classList.add("pt1");
-      var card2 = document.getElementById("pt2") as HTMLInputElement;
-      card2.classList.remove("pt1");
-
-      turn='X';
-      this.playerTurn = 0;
-      console.log(this.playerTurn);
-      
-      this.refresh(turn,index);
-
-    }else if(this.playerTurn==0){
-      console.log(this.playerTurn);
-      
-      var card3 = document.getElementById("pt2") as HTMLInputElement;
-      card3.classList.add("pt1");
-      var card4 = document.getElementById("pt1") as HTMLInputElement;
-      card4.classList.remove("pt1");
-
-      turn = 'O';
-      this.playerTurn = 1;
-      console.log(this.playerTurn);
-      this.refresh(turn,index);
+  jugada(index:number){  
+    console.log('jugador actual:',this.current);
+    if(this.current == this.game.player1.playerId){   
+      this.refresh('X',index);
     }
-    else{console.log('--------------------------8------------------------------');
+    else if(this.current == this.game.player2.playerId){
+      this.refresh2('O',index);
     }
-
-    
-
-
+   console.log('--------------------8------------------------------');
   }
 
   refresh(turn:string, index:number){
     this.editGameWJugada.boardGame = this.esto2;
-    this.editGameWJugada.currentPlayer = this.datosUsuarioLoggedIn.user.uid;
+    this.editGameWJugada.currentPlayer = this.game.player1.playerId;
     this.editGameWJugada.idGame = this.gameId;
     this.editGameWJugada.clickedPosition = index;
     this.editGameWJugada.xPlay =turn;
     this.othello.editGame(this.editGameWJugada)
     .subscribe(
       (data:any )=>{
-        console.log(data);
+        //console.log(data);
+        if (data.success==200) {
+          this.current = this.game.player2.playerId;
+          /* var card1 = document.getElementById("pt1") as HTMLInputElement;
+          card1.classList.add("ptB");
+          var card2 = document.getElementById("pt2") as HTMLInputElement;
+          card2.classList.remove("ptC"); */
+          console.log('OK:',this.var1,this.var2);
+        }  
       }
     );
     this.othello.enterGame(this.gameId)
         .subscribe( ( data:any ) => {
           this.game = data.game;
-          this.secondPlayer = this.game.player2.playerName;
+          this.esto2 = this.game.boardGame;
+          this.sc1 = this.game.score.player1;
+          this.sc2 = this.game.score.player2;    
+    });
+  }
+
+  refresh2(turn:string, index:number){
+    this.editGameWJugada.boardGame = this.esto2;
+    this.editGameWJugada.currentPlayer = this.game.player2.playerId;   
+    this.editGameWJugada.idGame = this.gameId;
+    this.editGameWJugada.clickedPosition = index;
+    this.editGameWJugada.xPlay =turn;
+    this.othello.editGame(this.editGameWJugada)
+    .subscribe(
+      (data:any )=>{
+        //console.log(data);
+        if (data.success==200) {
+          this.current = this.game.player1.playerId;
+          /* var card1 = document.getElementById("pt1") as HTMLInputElement;
+          card1.classList.add("ptC");
+          var card2 = document.getElementById("pt2") as HTMLInputElement;
+          card2.classList.remove("ptB");  */
+          console.log('OK');
+        }
+      }
+    );
+    this.othello.enterGame(this.gameId)
+        .subscribe( ( data:any ) => {
+          this.game = data.game;
           this.esto2 = this.game.boardGame;
           this.sc1 = this.game.score.player1;
           this.sc2 = this.game.score.player2;
     });
   }
-
-
 
 }

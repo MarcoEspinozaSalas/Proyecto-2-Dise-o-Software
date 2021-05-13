@@ -9,21 +9,31 @@
   <ion-row>
     <ion-col style='width:50%; '>
       <ion-card style='text-align: center;'>
-        <p id="pt1" class='clpt1'> {{actualPlayer}}</p>
-        <p>Score:</p>
-        <h3>{{sc1}}</h3>
+        <p class='clpt'> {{actualPlayer}}</p>
+        <div style="clear: both">
+          <div style="float: left; width: 40%;">Pts:</div>
+          <h4 style="float: right; width: 40%;margin-top: 0%;">{{sc1}}</h4>
+        </div>
       </ion-card>
     </ion-col>
 
     <ion-col style='width:50%;'>
       <ion-card style='text-align: center;'>
-        <p id="pt2" class='clpt2'>{{secondPlayer}}</p>
-        <p>Score:</p>
-        <h3>{{sc2}}</h3>
+        <p class='clpt'>{{secondPlayer}}</p>
+        <div style="clear: both">
+          <div style="float: left; width: 40%;">Pts:</div>
+          <h4 style="float: right; width: 40%;margin-top: 0%;">{{sc2}}</h4>
+        </div>
       </ion-card>
     </ion-col>
   </ion-row>
-  
+  <div>
+    <span class="dot">
+      <div>
+      <span class="dot2"></span>
+    </div>
+    </span>
+  </div>
   <ion-grid>
     <ion-row no-padding>
       <ion-col *ngFor="let c of esto2; index as indexButton"  class='tablero' (click)="jugada(indexButton)">

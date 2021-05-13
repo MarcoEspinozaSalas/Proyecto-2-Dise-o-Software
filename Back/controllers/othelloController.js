@@ -297,13 +297,14 @@ router.post('/skipTurn', async (req, res) => {
 });
 
 router.post('/editGame', async (req, res) => {
-
+    
     const idGame = req.body.idGame;
     const boardGame = req.body.boardGame;
     const position = req.body.clickedPosition;
-    const xPlay = req.body.xPlay;
+    let xPlay = req.body.xPlay;
     const currentPlayer = req.body.currentPlayer;
-
+    xPlay === 'X' ? xPlay = true : xPlay = false;
+    console.log('jugador actual',req.body.currentPlayer);
     let modifiedBoard = flipSquares(boardGame, position, xPlay);
 
     if (modifiedBoard !== null) {
