@@ -60,10 +60,9 @@ export class BoardPage implements AfterViewInit, OnInit {
 
   ngOnInit(){
     this.socket.connect();
-    console.log(this.current);
     
     this.socket.fromEvent('refresh').subscribe(message => {
-      console.log(message);
+      
       this.actRef();
    });
   }
@@ -164,7 +163,6 @@ export class BoardPage implements AfterViewInit, OnInit {
     this.othello.editGame(this.editGameWJugada)
     .subscribe(
       (data:any )=>{
-        //console.log(data);
         if (data.success==200) {
           this.currentName = this.game.player1.playerName;
           this.current = this.game.player1.playerId;
