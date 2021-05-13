@@ -15,7 +15,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="!toCreate && !toPlay">
+<ion-content *ngIf="!toCreate && !toPlay && !toSpectate">
   <ion-fab horizontal="center" vertical="center" slot="fixed">
     <ion-fab-button color="light">
       <ion-icon name="share"></ion-icon>
@@ -105,7 +105,7 @@
 </ion-content>
 
 <ion-content *ngIf="toSpectate" class="ion-padding" [scrollEvents]="true">
-  <h3>Join to game game</h3>
+  <h3>Join to game</h3>
   <ion-button (click)="getAllPlayerGames()">Espectar juego</ion-button>
   <p *ngIf="noconts"> ID de juego: </p>
   <ion-select *ngIf="noconts"[(ngModel)]="idSpectate">
