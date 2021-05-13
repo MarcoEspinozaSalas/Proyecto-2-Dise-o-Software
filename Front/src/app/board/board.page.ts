@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
 import { HttpClient } from '@angular/common/http';
 import { NavController } from '@ionic/angular';
-
+import { ToastController } from '@ionic/angular';
 //services
 import { OthelloService } from './../services/othello.service';
 
@@ -26,16 +26,18 @@ export class BoardPage implements AfterViewInit, OnInit {
   actualPlayer: '';
   secondPlayer: '';
   current: '';
+  currentName:'';
   sc1:0;
   sc2:0;
   sc:0;
   game: any;
-
+  varHtml=0;
   var1:number;
   var2:string;
 
   playerTurnName: '';
   playerTurn=1;
+  toastController: any;
 
   constructor(private router: Router, private firebaseService: FirebaseService,public navCtrl: NavController, public http: HttpClient,
     private othello : OthelloService) {
@@ -45,11 +47,11 @@ export class BoardPage implements AfterViewInit, OnInit {
       this.othello.enterGame(this.gameId)
         .subscribe( ( data:any ) => {
           this.game = data.game;
-          
           this.secondPlayer = this.game.player2.playerName;
           this.esto2 = this.game.boardGame;
           this.sc1 = this.game.score.player1;
           this.sc2 = this.game.score.player2;
+          this.currentName = this.game.player1.playerName;
         });
     if (this.datosUsuarioLoggedIn == null) {
      this.router.navigate(['/login'])
@@ -58,22 +60,36 @@ export class BoardPage implements AfterViewInit, OnInit {
 
   ngOnInit(){
     this.current = this.datosUsuarioLoggedIn.user.uid;
-   
   } 
 
   ngAfterViewInit() {
   }
 
+  async winner(a:string) {
+    const toast = await this.toastController.create({
+      message: 'El ganador es '+a,
+      color:"success",
+      duration: 2000
+    });
+    toast.present();
+  }
 
+  show(){
+    if (this.varHtml==1) {
+      var t = document.getElementById('hrt') as HTMLInputElement;
+      t.classList.add("hrt2");
+    }else if (this.varHtml==0) {
+      var t = document.getElementById('hrt') as HTMLInputElement;
+      t.classList.add("hrt1");
+    }
+  }
 
   paint(c:number,p:string){
     if(p!=null){
       if (p=='X') {
-        //console.log('primer jugador turno');
         var buttonI = document.getElementById("button" + c.toString()) as HTMLInputElement;
         buttonI.classList.add("mostrarN");
       }else if(p=='O'){
-        //console.log('segundo juagdor turno');
         var buttonA = document.getElementById("button" + c.toString()) as HTMLInputElement;
         buttonA.classList.add("mostrar")
       }
@@ -88,7 +104,6 @@ export class BoardPage implements AfterViewInit, OnInit {
     else if(this.current == this.game.player2.playerId){
       this.refresh2('O',index);
     }
-   console.log('--------------------8------------------------------');
   }
 
   refresh(turn:string, index:number){
@@ -100,14 +115,10 @@ export class BoardPage implements AfterViewInit, OnInit {
     this.othello.editGame(this.editGameWJugada)
     .subscribe(
       (data:any )=>{
-        //console.log(data);
+        console.log(data);
         if (data.success==200) {
+          this.currentName = this.game.player2.playerName;
           this.current = this.game.player2.playerId;
-          /* var card1 = document.getElementById("pt1") as HTMLInputElement;
-          card1.classList.add("ptB");
-          var card2 = document.getElementById("pt2") as HTMLInputElement;
-          card2.classList.remove("ptC"); */
-          console.log('OK:',this.var1,this.var2);
         }  
       }
     );
@@ -116,7 +127,15 @@ export class BoardPage implements AfterViewInit, OnInit {
           this.game = data.game;
           this.esto2 = this.game.boardGame;
           this.sc1 = this.game.score.player1;
-          this.sc2 = this.game.score.player2;    
+          this.sc2 = this.game.score.player2;
+          if(this.game.ended==true){
+            if(this.sc1 > this.sc2 ){
+              this.winner(this.game.player1.playerName)
+            }
+            else{
+              this.winner(this.game.player2.playerName)
+            }
+          } 
     });
   }
 
@@ -129,14 +148,10 @@ export class BoardPage implements AfterViewInit, OnInit {
     this.othello.editGame(this.editGameWJugada)
     .subscribe(
       (data:any )=>{
-        //console.log(data);
+        console.log(data);
         if (data.success==200) {
+          this.currentName = this.game.player1.playerName;
           this.current = this.game.player1.playerId;
-          /* var card1 = document.getElementById("pt1") as HTMLInputElement;
-          card1.classList.add("ptC");
-          var card2 = document.getElementById("pt2") as HTMLInputElement;
-          card2.classList.remove("ptB");  */
-          console.log('OK');
         }
       }
     );
@@ -146,6 +161,15 @@ export class BoardPage implements AfterViewInit, OnInit {
           this.esto2 = this.game.boardGame;
           this.sc1 = this.game.score.player1;
           this.sc2 = this.game.score.player2;
+          if(this.game.ended==true){
+            if(this.sc1 > this.sc2 ){
+              this.winner(this.game.player1.playerName)
+            }
+            else{
+              this.winner(this.game.player2.playerName)
+            }
+          }
+          
     });
   }
 

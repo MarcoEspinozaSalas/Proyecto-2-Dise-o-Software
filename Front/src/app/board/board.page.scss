@@ -31,8 +31,11 @@
 
   }
 
+  .clpt2{
+    color: rgb(196, 255, 32);
+  }
   .clpt{
-    color: rgb(39, 230, 102);
+    color: rgb(70, 165, 255);
   }
 
   .ptB{
@@ -74,3 +77,24 @@
     display: inline-block;
   }
 
+  hr {
+    display: block;
+    position: relative;
+    padding: 0;
+    margin: 8px auto;
+    height: 0;
+    width: 100%;
+    max-height: 0;
+    font-size: 1px;
+    line-height: 0;
+    clear: both;
+    border: none;
+    border-top: 1px solid #aaaaaa;
+    border-bottom: 1px solid #ffffff;
+ }
+
+
+
+actualPlayerA{
+  background-color: #ffffff;  
+}
