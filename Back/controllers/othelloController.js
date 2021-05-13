@@ -244,23 +244,25 @@ router.get('/getPlayerGames', async (req, res) => {
 });
 router.get('/getAllGames', async (req, res) => {
 
+    const playerId = req.query.playerId;
+
     try {
 
         var pool = firebase.firestore();
-        const gamesRef = await pool.collection('games');
+        const response = await pool.collection('games').get();
 
-        var games = []
-        await gamesRef.get().then((snapshot) => {
+        var playerGames = [];
+        response.forEach(doc => {
 
-            snapshot.forEach((doc) => {
-                games.push(doc.id);
-            })
+            if (doc.data().player1.playerId !== playerId && doc.data().player2.playerId !== playerId) {
+                playerGames.push(doc.id);
+            }
         });
 
-        res.status(status.OK).json({ games: games });
+        res.status(status.OK).json({ games: playerGames })
 
-    } catch {
-        res.status(status.INTERNAL_SERVER_ERROR).json({ error: 'Fail getting the games' });
+    } catch (err) {
+        res.status(status.INTERNAL_SERVER_ERROR).json({ error: err })
     }
 });
 

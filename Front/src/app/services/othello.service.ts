@@ -42,8 +42,10 @@ export class OthelloService {
     return this.http.get(`${environment.urlRootBack}/newGame?createdBy=${uid}`);
   }
 
-  getAllGamesPlayers(){
-    return this.http.get(`${environment.urlRootBack}/getAllGames`);
+  getAllGamesPlayers(
+    playerID:string
+  ){
+    return this.http.get(`${environment.urlRootBack}/getAllGames?playerId=${playerID}`);
   }
 
 

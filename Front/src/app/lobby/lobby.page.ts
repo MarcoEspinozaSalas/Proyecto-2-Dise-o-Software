@@ -179,7 +179,7 @@ export class LobbyPage implements OnInit {
   }
 
   getAllPlayerGames(){
-    this.othello.getAllGamesPlayers()
+    this.othello.getAllGamesPlayers(this.datosUsuarioLoggedIn.user.uid)
     .subscribe((data:any)=>{
          console.log(data);    
          this.listAllGames = data.games;
@@ -219,8 +219,6 @@ JoinGame(){
         }
       )
     }
-
- this.noconts = true;
 }
   ionViewWillEnter(){
     this.refreshPlayers();
